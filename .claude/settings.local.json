@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git init:*)"
+      "Bash(git init:*)",
+      "Bash(gh auth:*)",
+      "Bash(git:*)",
+      "Bash(brew install:*)",
+      "Bash(gh repo:*)",
+      "Bash(sudo chown:*)",
+      "Bash(git clone:*)",
+      "Bash(GIT_TERMINAL_PROMPT=0 git:*)",
+      "Bash(ssh-keygen:*)"
     ]
   }
 }
