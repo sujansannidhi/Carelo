@@ -35,15 +35,18 @@ export function Footer() {
           </div>
 
           <p className="text-sm text-muted-foreground">
-            &copy; CultivAid 2026. All rights reserved.
+            Founder: Sujan Sannidhi || Co-Founder: Aarthi Padavala
           </p>
 
           <div className="flex items-center gap-6">
             <a href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
               Privacy Policy
             </a>
-            <a href="mailto:hello@cultivaid.com" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+            <a href="/contact" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
               Contact
+            </a>
+            <a href="/founders" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+              Founders
             </a>
           </div>
         </div>

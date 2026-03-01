@@ -1,15 +1,24 @@
 "use client"
 
 import { useState } from "react"
+import { motion, useScroll, useTransform } from "framer-motion"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { scrollY } = useScroll()
+
+  // Navbar hidden at top, fades in after user scrolls ~300px
+  const navOpacity = useTransform(scrollY, [200, 400], [0, 1])
+  const navY = useTransform(scrollY, [200, 400], [-20, 0])
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
+    <motion.header
+      style={{ opacity: navOpacity, y: navY }}
+      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50"
+    >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2.5">
           <Image
@@ -36,6 +45,9 @@ export function Navbar() {
           </a>
           <a href="#cta" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Early Access
+          </a>
+          <a href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+            Contact
           </a>
         </div>
 
@@ -66,12 +78,15 @@ export function Navbar() {
             <a href="#edge" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               How It Works
             </a>
+            <a href="/contact" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Contact
+            </a>
             <Button asChild className="rounded-full mt-2" onClick={() => setMobileOpen(false)}>
               <a href="#cta">Get Early Access</a>
             </Button>
           </div>
         </div>
       )}
-    </header>
+    </motion.header>
   )
 }

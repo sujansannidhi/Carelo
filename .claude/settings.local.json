@@ -9,7 +9,10 @@
       "Bash(sudo chown:*)",
       "Bash(git clone:*)",
       "Bash(GIT_TERMINAL_PROMPT=0 git:*)",
-      "Bash(ssh-keygen:*)"
+      "Bash(ssh-keygen:*)",
+      "Bash(curl:*)",
+      "Bash(ls:*)",
+      "Bash(./node_modules/.bin/next build:*)"
     ]
   }
 }
