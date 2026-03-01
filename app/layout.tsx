@@ -11,21 +11,8 @@ export const metadata: Metadata = {
   description: 'A family ecosystem that lets you balance work and life without sacrificing care for your elderly loved ones.',
   generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/images/carelo-logo.png',
+    apple: '/images/carelo-logo.png',
   },
 }
 
