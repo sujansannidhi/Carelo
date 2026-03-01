@@ -1,8 +1,9 @@
 "use client"
 
 import { useRef } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import Image from "next/image"
+import { MousePointerClick } from "lucide-react"
 import { ContainerScroll } from "@/components/ui/container-scroll-animation"
 import { DashboardPreview } from "@/components/dashboard-preview"
 
@@ -122,30 +123,56 @@ function ShowcasePanel({
   )
 }
 
+function ScrollHint() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 z-30 hidden lg:flex flex-col items-center gap-2"
+    >
+      <motion.div
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+        className="flex flex-col items-center gap-2"
+      >
+        <MousePointerClick className="h-5 w-5 text-primary" />
+        <span className="text-sm font-medium text-muted-foreground whitespace-nowrap [writing-mode:vertical-lr]">
+          Scroll &amp; interact with the dashboard
+        </span>
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export function AppShowcase() {
   return (
     <section className="relative overflow-hidden">
       {/* First screen: 3D container scroll reveal */}
-      <ContainerScroll
-        titleComponent={
-          <div className="flex flex-col items-center">
-            <span className="text-sm font-semibold uppercase tracking-widest text-primary mb-3">
-              {screens[0].label}
-            </span>
-            <h3
-              className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[3.5rem] leading-tight text-balance"
-              style={{ fontFamily: "var(--font-heading)" }}
-            >
-              {screens[0].title}
-            </h3>
-            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-              {screens[0].description}
-            </p>
-          </div>
-        }
-      >
-        <DashboardPreview />
-      </ContainerScroll>
+      <div className="relative">
+        <ContainerScroll
+          titleComponent={
+            <div className="flex flex-col items-center">
+              <span className="text-sm font-semibold uppercase tracking-widest text-primary mb-3">
+                {screens[0].label}
+              </span>
+              <h3
+                className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[3.5rem] leading-tight text-balance"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                {screens[0].title}
+              </h3>
+              <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                {screens[0].description}
+              </p>
+            </div>
+          }
+        >
+          <DashboardPreview />
+        </ContainerScroll>
+        <ScrollHint />
+      </div>
 
       {/* Remaining screens: alternating parallax panels */}
       {screens.slice(1).map((screen, i) => (

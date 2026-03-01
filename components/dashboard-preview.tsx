@@ -332,13 +332,15 @@ export function DashboardPreview() {
             </button>
           </div>
         </div>
+        {/* bottom spacer so content doesn't hide behind emergency bar */}
+        <div className="h-12" />
       </div>
 
-      {/* ── Emergency Contact FAB ── */}
-      <div className="absolute bottom-3 right-3 md:bottom-4 md:right-4 z-20">
-        <button className="flex items-center gap-1.5 rounded-full bg-destructive text-white px-3 py-2 text-[10px] md:text-xs font-semibold shadow-lg shadow-destructive/30 hover:bg-destructive/90 transition-colors">
+      {/* ── Emergency Contact Bar (sticky bottom inside container) ── */}
+      <div className="shrink-0 flex items-center justify-end px-3 md:px-5 py-2 border-t border-border bg-card/95 backdrop-blur-sm">
+        <button className="flex items-center gap-1.5 rounded-full bg-destructive text-white px-3 py-1.5 md:px-4 md:py-2 text-[10px] md:text-xs font-semibold shadow-lg shadow-destructive/30 hover:bg-destructive/90 transition-colors">
           <Phone className="h-3 w-3 md:h-3.5 md:w-3.5" />
-          <span className="hidden sm:inline">Emergency</span>
+          Emergency Contact
         </button>
       </div>
     </div>
