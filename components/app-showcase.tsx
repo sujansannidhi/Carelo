@@ -3,6 +3,7 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
+import { ContainerScroll } from "@/components/ui/container-scroll-animation"
 
 const screens = [
   {
@@ -123,8 +124,38 @@ function ShowcasePanel({
 export function AppShowcase() {
   return (
     <section className="relative overflow-hidden">
-      {screens.map((screen, i) => (
-        <ShowcasePanel key={screen.label} screen={screen} index={i} />
+      {/* First screen: 3D container scroll reveal */}
+      <ContainerScroll
+        titleComponent={
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-semibold uppercase tracking-widest text-primary mb-3">
+              {screens[0].label}
+            </span>
+            <h3
+              className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[3.5rem] leading-tight text-balance"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              {screens[0].title}
+            </h3>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+              {screens[0].description}
+            </p>
+          </div>
+        }
+      >
+        <Image
+          src={screens[0].image}
+          alt={screens[0].label}
+          width={1400}
+          height={720}
+          className="mx-auto rounded-2xl object-cover h-full object-left-top"
+          draggable={false}
+        />
+      </ContainerScroll>
+
+      {/* Remaining screens: alternating parallax panels */}
+      {screens.slice(1).map((screen, i) => (
+        <ShowcasePanel key={screen.label} screen={screen} index={i + 1} />
       ))}
     </section>
   )
