@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import Image from "next/image"
 import { ContainerScroll } from "@/components/ui/container-scroll-animation"
+import { DashboardPreview } from "@/components/dashboard-preview"
 
 const screens = [
   {
@@ -143,14 +144,7 @@ export function AppShowcase() {
           </div>
         }
       >
-        <Image
-          src={screens[0].image}
-          alt={screens[0].label}
-          width={1400}
-          height={720}
-          className="mx-auto rounded-2xl object-cover h-full object-left-top"
-          draggable={false}
-        />
+        <DashboardPreview />
       </ContainerScroll>
 
       {/* Remaining screens: alternating parallax panels */}
