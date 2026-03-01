@@ -90,7 +90,7 @@ export function CTASection() {
                   {"You're on the list!"}
                 </p>
                 <p className="text-muted-foreground">
-                  {"We'll notify you as soon as CultivAid is ready."}
+                  {"We'll notify you as soon as Carelo is ready."}
                 </p>
               </motion.div>
             ) : (

@@ -11,14 +11,14 @@ const founders = [
   {
     name: "Sujan Sannidhi",
     role: "Founder",
-    email: "sujan@cultivaid.com",
+    email: "sujan@carelo.com",
     phone: "+1 (555) 000-0001",
     linkedin: "https://linkedin.com/in/sujan-sannidhi",
   },
   {
     name: "Aarthi Padavala",
     role: "Co-Founder",
-    email: "aarthi@cultivaid.com",
+    email: "aarthi@carelo.com",
     phone: "+1 (555) 000-0002",
     linkedin: "https://linkedin.com/in/aarthi-padavala",
   },
@@ -49,7 +49,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-              Have questions about CultivAid? Want to partner with us or learn more about our mission? Reach out to our founding team.
+              Have questions about Carelo? Want to partner with us or learn more about our mission? Reach out to our founding team.
             </p>
           </AnimateOnScroll>
 

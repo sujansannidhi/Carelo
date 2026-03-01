@@ -22,21 +22,21 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <a href="#" className="flex items-center gap-2.5">
           <Image
-            src="/images/cultivaid-logo.png"
-            alt="CultivAid logo"
+            src="/images/carelo-logo.png"
+            alt="Carelo logo"
             width={48}
             height={48}
             className="h-12 w-12 object-contain"
           />
           <span className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
-            <span className="text-foreground">Cultiv</span>
-            <span className="text-primary">Aid</span>
+            <span className="text-foreground">Care</span>
+            <span className="text-primary">lo</span>
           </span>
         </a>
 
         <div className="hidden items-center gap-8 md:flex">
           <a href="#problem" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-            Why CultivAid
+            Why Carelo
           </a>
           <a href="#solution" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Features
@@ -71,7 +71,7 @@ export function Navbar() {
         <div className="border-t border-border/50 bg-background/95 backdrop-blur-lg md:hidden">
           <div className="flex flex-col gap-4 px-6 py-6">
             <a href="#problem" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
-              Why CultivAid
+              Why Carelo
             </a>
             <a href="#solution" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Features

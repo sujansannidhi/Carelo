@@ -11,12 +11,12 @@ const founders = [
   {
     name: "Sujan Sannidhi",
     role: "Founder",
-    bio: "Passionate about leveraging technology to improve elderly care. Sujan founded CultivAid with a vision to create a family ecosystem that empowers caregivers and keeps elderly loved ones safe, healthy, and connected.",
+    bio: "Passionate about leveraging technology to improve elderly care. Sujan founded Carelo with a vision to create a family ecosystem that empowers caregivers and keeps elderly loved ones safe, healthy, and connected.",
   },
   {
     name: "Aarthi Padavala",
     role: "Co-Founder",
-    bio: "Driven by a deep commitment to accessible healthcare, Aarthi brings expertise in product design and user experience. She ensures CultivAid's interfaces are intuitive for both caregivers and elderly users.",
+    bio: "Driven by a deep commitment to accessible healthcare, Aarthi brings expertise in product design and user experience. She ensures Carelo's interfaces are intuitive for both caregivers and elderly users.",
   },
 ]
 
@@ -45,7 +45,7 @@ export default function FoundersPage() {
               Meet the Founders
             </h1>
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-              The people behind CultivAid — building a future where caring for elderly loved ones doesn't mean sacrificing your own well-being.
+              The people behind Carelo — building a future where caring for elderly loved ones doesn't mean sacrificing your own well-being.
             </p>
           </AnimateOnScroll>
 

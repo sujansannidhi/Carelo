@@ -24,7 +24,7 @@ const screens = [
     label: "Peace of Mind Score",
     title: "One Number You Can Trust.",
     description:
-      "CultivAid distills medication adherence, activity levels, weight stability, and cognitive health into a single Peace of Mind Score out of 100. At a glance, you know exactly how your loved one is doing.",
+      "Carelo distills medication adherence, activity levels, weight stability, and cognitive health into a single Peace of Mind Score out of 100. At a glance, you know exactly how your loved one is doing.",
   },
 ]
 

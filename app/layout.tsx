@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const rubik = Rubik({ subsets: ["latin"], variable: "--font-rubik", weight: ["400", "500", "600", "700", "800"] });
 
 export const metadata: Metadata = {
-  title: 'CultivAid - Care Without Compromise',
+  title: 'Carelo - Care Without Compromise',
   description: 'A family ecosystem that lets you balance work and life without sacrificing care for your elderly loved ones.',
   generator: 'v0.app',
   icons: {

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion"
 
-interface CultivAidLogoAnimatedProps {
+interface CareloLogoAnimatedProps {
   className?: string
 }
 
@@ -19,7 +19,7 @@ const drawTransition = (delay: number) => ({
   },
 })
 
-export function CultivAidLogoAnimated({ className }: CultivAidLogoAnimatedProps) {
+export function CareloLogoAnimated({ className }: CareloLogoAnimatedProps) {
   return (
     <svg
       viewBox="0 0 240 240"

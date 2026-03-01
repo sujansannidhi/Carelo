@@ -166,7 +166,7 @@ export function SolutionSection() {
             className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            Meet CultivAid.
+            Meet Carelo.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
             An intelligent care platform that bridges the gap between you and your elderly loved ones — no matter the distance.

@@ -1,4 +1,4 @@
-# CultivAid — Family Elderly Care Ecosystem
+# Carelo — Family Elderly Care Ecosystem
 
 > "A family ecosystem to balance work-life without sacrificing your care for elderly loved ones."
 

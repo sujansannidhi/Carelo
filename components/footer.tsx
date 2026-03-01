@@ -23,14 +23,14 @@ export function Footer() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-4 sm:flex-row">
           <div className="flex items-center gap-2">
             <Image
-              src="/images/cultivaid-logo.png"
-              alt="CultivAid logo"
+              src="/images/carelo-logo.png"
+              alt="Carelo logo"
               width={64}
               height={64}
               className="h-16 w-16 object-contain"
             />
             <span className="text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-              CultivAid
+              Carelo
             </span>
           </div>
 

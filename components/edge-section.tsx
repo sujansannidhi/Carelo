@@ -122,7 +122,7 @@ export function EdgeSection() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-lg leading-relaxed text-muted-foreground"
             >
-              CultivAid transforms raw health data into simple, actionable insights — giving caregivers clarity, not just numbers. Our Peace of Mind Score distills everything into one number you can trust.
+              Carelo transforms raw health data into simple, actionable insights — giving caregivers clarity, not just numbers. Our Peace of Mind Score distills everything into one number you can trust.
             </motion.p>
 
             <ul className="flex flex-col gap-3 pt-2">

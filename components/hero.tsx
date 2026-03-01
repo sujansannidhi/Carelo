@@ -50,8 +50,8 @@ export function Hero() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           <Image
-            src="/images/cultivaid-logo.png"
-            alt="CultivAid logo"
+            src="/images/carelo-logo.png"
+            alt="Carelo logo"
             width={120}
             height={120}
             className="h-24 w-24 object-contain mix-blend-multiply dark:mix-blend-screen sm:h-28 sm:w-28 md:h-32 md:w-32"
@@ -64,7 +64,7 @@ export function Hero() {
           className="mt-3 flex text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"
           style={{ fontFamily: "var(--font-heading)" }}
         >
-          {"Cultiv".split("").map((letter, i) => (
+          {"Care".split("").map((letter, i) => (
             <motion.span
               key={i}
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
@@ -75,12 +75,12 @@ export function Hero() {
               {letter}
             </motion.span>
           ))}
-          {"Aid".split("").map((letter, i) => (
+          {"lo".split("").map((letter, i) => (
             <motion.span
-              key={i + 6}
+              key={i + 4}
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.5, delay: 0.1 + (i + 6) * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, delay: 0.1 + (i + 4) * 0.045, ease: [0.22, 1, 0.36, 1] }}
               className="text-primary"
             >
               {letter}
