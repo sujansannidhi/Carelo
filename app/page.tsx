@@ -3,6 +3,7 @@ import { Hero } from "@/components/hero"
 import { AppShowcase } from "@/components/app-showcase"
 import { ProblemSection } from "@/components/problem-section"
 import { SolutionSection } from "@/components/solution-section"
+import { CheckInSection } from "@/components/checkin-section"
 import { EdgeSection } from "@/components/edge-section"
 import { CTASection } from "@/components/cta-section"
 import { Footer } from "@/components/footer"
@@ -18,6 +19,7 @@ export default function Home() {
         <AppShowcase />
         <ProblemSection />
         <SolutionSection />
+        <CheckInSection />
         <EdgeSection />
         <CTASection />
         <Footer />

@@ -24,12 +24,13 @@ export function Navbar() {
           <Image
             src="/images/cultivaid-logo.png"
             alt="CultivAid logo"
-            width={36}
-            height={36}
-            className="h-9 w-9 object-contain"
+            width={48}
+            height={48}
+            className="h-12 w-12 object-contain"
           />
-          <span className="text-xl font-bold tracking-tight text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
-            CultivAid
+          <span className="text-xl font-bold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
+            <span className="text-foreground">Cultiv</span>
+            <span className="text-primary">Aid</span>
           </span>
         </a>
 

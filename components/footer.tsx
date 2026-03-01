@@ -4,7 +4,7 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-card">
       {/* Partnership CTA */}
-      <div className="mx-auto max-w-6xl px-6 py-12 text-center">
+      <div className="mx-auto max-w-6xl px-6 py-6 text-center">
         <p className="text-muted-foreground">
           Interested in early partnerships or caregiving services?
         </p>
@@ -20,16 +20,16 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-4 sm:flex-row">
           <div className="flex items-center gap-2">
             <Image
               src="/images/cultivaid-logo.png"
               alt="CultivAid logo"
-              width={28}
-              height={28}
-              className="h-7 w-7 object-contain"
+              width={64}
+              height={64}
+              className="h-16 w-16 object-contain"
             />
-            <span className="text-sm font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
+            <span className="text-xl font-bold text-foreground" style={{ fontFamily: "var(--font-heading)" }}>
               CultivAid
             </span>
           </div>

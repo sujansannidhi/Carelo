@@ -22,6 +22,12 @@ export function Hero() {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen overflow-hidden pt-32 pb-20">
+      {/* Yellow corner accents */}
+      <div className="pointer-events-none absolute -top-32 -left-32 h-[420px] w-[420px] rounded-full bg-yellow-400/15 blur-[120px]" />
+      <div className="pointer-events-none absolute -top-32 -right-32 h-[420px] w-[420px] rounded-full bg-yellow-400/15 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-32 -left-32 h-[420px] w-[420px] rounded-full bg-yellow-400/15 blur-[120px]" />
+      <div className="pointer-events-none absolute -bottom-32 -right-32 h-[420px] w-[420px] rounded-full bg-yellow-400/15 blur-[120px]" />
+
       {/* Parallax background orbs */}
       <motion.div
         style={{ y: orb1Y }}
@@ -53,36 +59,41 @@ export function Hero() {
           />
         </motion.div>
 
-        {/* === Company name === */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl"
+        {/* === Company name — letter-by-letter stagger === */}
+        <h1
+          className="mt-3 flex text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl"
           style={{ fontFamily: "var(--font-heading)" }}
         >
-          CultivAid
-        </motion.h1>
-
-        {/* === Badge === */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-8 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-sm font-medium text-muted-foreground shadow-sm"
-        >
-          <span className="h-2 w-2 rounded-full bg-accent" />
-          Coming Soon
-        </motion.div>
+          {"Cultiv".split("").map((letter, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.5, delay: 0.1 + i * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              className="text-foreground"
+            >
+              {letter}
+            </motion.span>
+          ))}
+          {"Aid".split("").map((letter, i) => (
+            <motion.span
+              key={i + 6}
+              initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ duration: 0.5, delay: 0.1 + (i + 6) * 0.045, ease: [0.22, 1, 0.36, 1] }}
+              className="text-primary"
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </h1>
 
         {/* === Headline === */}
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="mt-6 text-center text-4xl font-bold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-7xl text-balance"
           style={{ fontFamily: "var(--font-heading)" }}
         >
