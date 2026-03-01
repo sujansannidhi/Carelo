@@ -11,8 +11,11 @@ export const metadata: Metadata = {
   description: 'A family ecosystem that lets you balance work and life without sacrificing care for your elderly loved ones.',
   generator: 'v0.app',
   icons: {
-    icon: '/images/carelo-logo.png',
-    apple: '/images/carelo-logo.png',
+    icon: [
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: '/apple-icon.png',
   },
 }
 
