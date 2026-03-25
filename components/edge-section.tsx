@@ -6,10 +6,10 @@ import Image from "next/image"
 import { Check } from "lucide-react"
 
 const benefits = [
-  "Transforms raw health data into a single clarity score",
-  "Actionable insights, not just numbers",
-  "Real-time alerts when something needs attention",
-  "Designed for families, not hospitals",
+  "90–96% less expensive than hardware-based competitors like CarePredict and GrandCare",
+  "More health dimensions than any single-purpose app — medication, weight, cognitive, check-ins, and alerts in one platform",
+  "Zero upfront cost — no devices to buy, no installation, no learning curve",
+  "Designed for families, not hospitals — starting at just $10/month",
 ]
 
 function AnimatedCounter({ target, isInView }: { target: number; isInView: boolean }) {
@@ -67,10 +67,10 @@ export function EdgeSection() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-3xl bg-primary/5 blur-2xl" />
               <Image
-                src="/images/peace-of-mind-screen.jpg"
-                alt="Peace of Mind Score showing a 92 out of 100 health score with medication, activity, and weight status indicators"
-                width={450}
-                height={450}
+                src="/images/bp/caregiver-dashboard.png"
+                alt="Caregiver dashboard showing wellness score of 84, medication status, weight trends, and cognitive scores"
+                width={550}
+                height={350}
                 className="relative rounded-2xl shadow-xl shadow-primary/10"
               />
             </div>
@@ -122,7 +122,7 @@ export function EdgeSection() {
               transition={{ duration: 0.7, delay: 0.3 }}
               className="text-lg leading-relaxed text-muted-foreground"
             >
-              Carelo transforms raw health data into simple, actionable insights — giving caregivers clarity, not just numbers. Our Peace of Mind Score distills everything into one number you can trust.
+              Hardware platforms like CarePredict and GrandCare cost $1,300–$3,100 per year plus device fees. Single-purpose apps only handle one thing. Carelo bundles everything into one platform with zero upfront cost — while our Peace of Mind Score distills it all into one number you can trust.
             </motion.p>
 
             <ul className="flex flex-col gap-3 pt-2">

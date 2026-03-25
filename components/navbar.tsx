@@ -38,6 +38,9 @@ export function Navbar() {
           <a href="#problem" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Why Carelo
           </a>
+          <a href="#story" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+            Our Story
+          </a>
           <a href="#solution" className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
             Features
           </a>
@@ -72,6 +75,9 @@ export function Navbar() {
           <div className="flex flex-col gap-4 px-6 py-6">
             <a href="#problem" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Why Carelo
+            </a>
+            <a href="#story" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
+              Our Story
             </a>
             <a href="#solution" onClick={() => setMobileOpen(false)} className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground">
               Features

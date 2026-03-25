@@ -2,6 +2,7 @@ import { Navbar } from "@/components/navbar"
 import { Hero } from "@/components/hero"
 import { AppShowcase } from "@/components/app-showcase"
 import { ProblemSection } from "@/components/problem-section"
+import { StorySection } from "@/components/story-section"
 import { SolutionSection } from "@/components/solution-section"
 import { CheckInSection } from "@/components/checkin-section"
 import { EdgeSection } from "@/components/edge-section"
@@ -16,9 +17,10 @@ export default function Home() {
       <div className="relative z-10">
         <Navbar />
         <Hero />
-        <AppShowcase />
         <ProblemSection />
+        <StorySection />
         <SolutionSection />
+        <AppShowcase />
         <CheckInSection />
         <EdgeSection />
         <CTASection />

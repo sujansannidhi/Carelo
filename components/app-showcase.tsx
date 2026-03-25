@@ -1,35 +1,70 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, lazy, Suspense } from "react"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import Image from "next/image"
 import { MousePointerClick } from "lucide-react"
 import { ContainerScroll } from "@/components/ui/container-scroll-animation"
 import { DashboardPreview } from "@/components/dashboard-preview"
 
+const SeniorHomeScreen = lazy(() => import("@/components/interactive-screens").then(m => ({ default: m.SeniorHomeScreen })))
+const HealthVitalsScreen = lazy(() => import("@/components/interactive-screens").then(m => ({ default: m.HealthVitalsScreen })))
+const WeightTrackingScreen = lazy(() => import("@/components/interactive-screens").then(m => ({ default: m.WeightTrackingScreen })))
+const CheckInScreen = lazy(() => import("@/components/interactive-screens").then(m => ({ default: m.CheckInScreen })))
+const CognitiveTestScreen = lazy(() => import("@/components/interactive-screens").then(m => ({ default: m.CognitiveTestScreen })))
+
 const screens = [
   {
-    image: "/images/hero-phones.jpg",
     label: "Caregiver Dashboard",
     title: "Everything at a Glance.",
     description:
-      "A single dashboard that gives you a real-time snapshot of your loved one's health — medication status, activity levels, weight trends, and cognitive scores. No more guessing, no more anxiety between visits.",
+      "A single dashboard that gives you a real-time snapshot of your loved one's health — wellness score, medication status, weight trends, and cognitive scores. Real-time alerts and weekly reports mean no more guessing between visits.",
   },
   {
-    image: "/images/hero-phones.jpg",
-    label: "Smart Medication Reminders",
-    title: "Never Miss a Dose.",
+    label: "Senior Experience",
+    title: "Designed for Simplicity.",
     description:
-      "Full-screen, elder-friendly reminders with large one-tap buttons — \"Took Medicine\" or \"I'm Okay.\" If a dose is missed, you get an instant alert. Customizable by the caregiver, effortless for the elderly.",
+      "Oversized buttons, friendly greetings, and zero navigation. Your loved one sees exactly four things they can do — and each one takes a single tap. No learning curve, no confusion.",
+    component: SeniorHomeScreen,
   },
   {
-    image: "/images/peace-of-mind-screen.jpg",
-    label: "Peace of Mind Score",
-    title: "One Number You Can Trust.",
+    label: "Health Integration Hub",
+    title: "All Vitals in One Place.",
     description:
-      "Carelo distills medication adherence, activity levels, weight stability, and cognitive health into a single Peace of Mind Score out of 100. At a glance, you know exactly how your loved one is doing.",
+      "Full Apple Health and smartwatch integration that automatically syncs heart rate, blood pressure, blood oxygen, temperature, and sleep data. Hover over any vital to explore trends.",
+    component: HealthVitalsScreen,
+  },
+  {
+    label: "Phone-Scan Weight Tracking",
+    title: "No New Devices Needed.",
+    description:
+      "Place a reference sticker on any existing bathroom scale, and the app guides your loved one step by step. Weight is logged automatically with daily reminders and trend monitoring.",
+    component: WeightTrackingScreen,
+  },
+  {
+    label: "Cognitive Mini-Tests",
+    title: "Keep the Mind Sharp.",
+    description:
+      "Short, engaging brain exercises that quietly score cognitive performance over time, generating longitudinal reports for caregivers and physicians to detect early signs of decline.",
+    component: CognitiveTestScreen,
+  },
+  {
+    label: "Safety Check-In",
+    title: "One Tap. Total Peace of Mind.",
+    description:
+      "At caregiver-configured times each day, a large button appears. If your loved one doesn't respond within the window, you're notified immediately. Try pressing it yourself.",
+    component: CheckInScreen,
   },
 ]
+
+function PhonePlaceholder() {
+  return (
+    <div className="w-[280px] md:w-[310px] rounded-[2.5rem] border-[3px] border-foreground/10 bg-card animate-pulse">
+      <div className="h-[520px] flex items-center justify-center">
+        <div className="h-8 w-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+      </div>
+    </div>
+  )
+}
 
 function ShowcasePanel({
   screen,
@@ -44,8 +79,9 @@ function ShowcasePanel({
     offset: ["start end", "end start"],
   })
 
-  const imageY = useTransform(scrollYProgress, [0, 1], [60, -60])
+  const phoneY = useTransform(scrollYProgress, [0, 1], [60, -60])
   const isEven = index % 2 === 0
+  const ScreenComponent = screen.component
 
   return (
     <div
@@ -57,7 +93,7 @@ function ShowcasePanel({
           isEven ? "" : "lg:[direction:rtl]"
         }`}
       >
-        {/* Phone image */}
+        {/* Interactive phone screen */}
         <motion.div
           initial={{ opacity: 0, x: isEven ? -80 : 80 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -65,15 +101,15 @@ function ShowcasePanel({
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="relative flex justify-center lg:[direction:ltr]"
         >
-          <motion.div style={{ y: imageY }} className="relative">
-            <div className="absolute -inset-6 rounded-3xl bg-primary/5 blur-2xl" />
-            <Image
-              src={screen.image}
-              alt={screen.label}
-              width={500}
-              height={500}
-              className="relative w-full max-w-[400px] rounded-2xl shadow-2xl shadow-primary/10"
-            />
+          <motion.div style={{ y: phoneY }} className="relative">
+            <div className="absolute -inset-8 rounded-[3rem] bg-primary/5 blur-2xl" />
+            <div className="relative">
+              {ScreenComponent && (
+                <Suspense fallback={<PhonePlaceholder />}>
+                  <ScreenComponent />
+                </Suspense>
+              )}
+            </div>
           </motion.div>
         </motion.div>
 
@@ -117,6 +153,17 @@ function ShowcasePanel({
           >
             {screen.description}
           </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="flex items-center gap-2 mt-2 text-sm text-primary/70"
+          >
+            <MousePointerClick className="h-4 w-4" />
+            <span>Interactive — try hovering and clicking</span>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -149,7 +196,7 @@ function ScrollHint() {
 export function AppShowcase() {
   return (
     <section className="relative overflow-hidden">
-      {/* First screen: 3D container scroll reveal */}
+      {/* First screen: 3D container scroll reveal — Caregiver Dashboard */}
       <div className="relative">
         <ContainerScroll
           titleComponent={
@@ -174,7 +221,7 @@ export function AppShowcase() {
         <ScrollHint />
       </div>
 
-      {/* Remaining screens: alternating parallax panels */}
+      {/* Remaining screens: alternating interactive phone panels */}
       {screens.slice(1).map((screen, i) => (
         <ShowcasePanel key={screen.label} screen={screen} index={i + 1} />
       ))}

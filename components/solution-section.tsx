@@ -6,10 +6,10 @@ import {
   Activity,
   Bell,
   Brain,
-  MapPin,
-  Phone,
+  FileText,
   Scale,
   Shield,
+  TrendingUp,
   Users,
 } from "lucide-react"
 
@@ -17,49 +17,49 @@ const features = [
   {
     icon: Activity,
     title: "Health Integration Hub",
-    description: "Full Apple Health and smartwatch integration with organized weekly reports.",
+    description: "Full Apple Health and smartwatch integration that automatically syncs vitals, activity data, and sleep into one organized dashboard with weekly caregiver reports.",
     highlight: true,
   },
   {
     icon: Bell,
     title: "Smart Medication System",
-    description: "Full-screen customizable reminders with one-tap confirmations.",
-    highlight: false,
+    description: "Full-screen reminders with caregiver-customizable schedules and large one-tap confirmation buttons. Missed doses trigger immediate alerts with pattern detection for consecutive nonadherence.",
+    highlight: true,
   },
   {
     icon: Scale,
-    title: "Weight Tracking Made Simple",
-    description: "Scan your scale with a smart sticker to log weight instantly.",
-    highlight: false,
+    title: "Phone-Scan Weight Tracking",
+    description: "Place a reference sticker on any existing bathroom scale, hold your phone over the display, and the app reads and stores the weight automatically with daily reminders and trend monitoring.",
+    highlight: true,
   },
   {
     icon: Brain,
-    title: "Cognitive Mini Test",
-    description: "Daily mental engagement with trend reporting for caregivers.",
+    title: "Cognitive Mini-Tests",
+    description: "Short, engaging brain exercises that quietly score cognitive performance over time, generating longitudinal reports for caregivers and physicians to detect early signs of decline like Alzheimer's.",
     highlight: true,
   },
   {
     icon: Shield,
-    title: "Unusual Pattern Detection",
-    description: "Immediate alerts for weight changes or missed medication.",
-    highlight: false,
-  },
-  {
-    icon: Users,
-    title: "Dual Account System",
-    description: "Simple UI for elderly. Advanced dashboard for caregivers.",
+    title: "Safety Check-In",
+    description: "At caregiver-configured times each day, a large \"I'm Okay\" button appears. If the senior doesn't respond, the caregiver is notified immediately.",
     highlight: true,
   },
   {
-    icon: Phone,
-    title: "Scam Call Protection",
-    description: "Suspicious calls can be redirected to caregivers for safety.",
+    icon: Users,
+    title: "Dual Interface Design",
+    description: "Two completely separate experiences: an oversized, zero-navigation interface for seniors and a full data dashboard with alerts and reports for caregivers.",
     highlight: false,
   },
   {
-    icon: MapPin,
-    title: "Location Safety Mode",
-    description: "Optional location sharing for additional peace of mind.",
+    icon: TrendingUp,
+    title: "Wellness Score & Pattern Detection",
+    description: "A composite score across medication adherence, weight stability, cognitive performance, and check-ins — plus automatic anomaly detection with instant caregiver alerts.",
+    highlight: false,
+  },
+  {
+    icon: FileText,
+    title: "Weekly Health Reports",
+    description: "Comprehensive weekly summaries covering weight trends, medication compliance, cognitive scores, check-in history, and flagged anomalies delivered to the caregiver.",
     highlight: false,
   },
 ]
@@ -169,7 +169,7 @@ export function SolutionSection() {
             Meet Carelo.
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-            An intelligent care platform that bridges the gap between you and your elderly loved ones — no matter the distance.
+            One affordable subscription that handles medication tracking, weight monitoring, cognitive testing, daily check-ins, and a full caregiver dashboard — no hardware to purchase, no complex setup, and no learning curve for the senior.
           </p>
         </motion.div>
 

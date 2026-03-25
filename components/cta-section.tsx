@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react"
+import { db } from "@/lib/firebase"
+import { collection, addDoc, serverTimestamp } from "firebase/firestore"
 
 export function CTASection() {
   const [email, setEmail] = useState("")
@@ -27,13 +29,24 @@ export function CTASection() {
   // Card itself has subtle parallax
   const cardY = useTransform(scrollYProgress, [0, 0.5, 1], [30, 0, -10])
 
+  const [error, setError] = useState("")
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!email) return
     setLoading(true)
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    setError("")
+    try {
+      await addDoc(collection(db, "waitlist"), {
+        email,
+        createdAt: serverTimestamp(),
+        source: "website",
+      })
+      setSubmitted(true)
+    } catch {
+      setError("Something went wrong. Please try again.")
+    }
     setLoading(false)
-    setSubmitted(true)
   }
 
   return (
@@ -122,6 +135,10 @@ export function CTASection() {
                   )}
                 </Button>
               </motion.form>
+            )}
+
+            {error && (
+              <p className="mt-3 text-sm text-destructive">{error}</p>
             )}
 
             <motion.p
