@@ -1,0 +1,1194 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Carelo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Carelo helps adult children look after the health of aging parents from anywhere. Two interfaces, no extra hardware, $0 upfront.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Palette from carelo.app: near-white, navy text, ocean/sky blue, sunny yellow accent, red for alerts.
+   Layout: one long scroll story, a single glowing thread linking Mom's phone to yours, left-aligned editorial copy so the thread can run through the gutters. */
+:root{
+  --cream:#FCFCFA; --paper:#FFFFFF; --sand:#F4F2EA; --line:#E0E5EB;
+  --teal:#104E64; --teal-2:#1D6F93; --teal-ink:#0C121A;
+  --sage:#8EC8E8; --sage-soft:#E2F1F9; --sage-ink:#13617F;
+  --coral:#F6D476; --coral-deep:#DBB155; --coral-soft:#FDF4D6; --coral-ink:#7A5C0E;
+  --alert:#E7000B; --alert-soft:#FDE8E8; --alert-ink:#B4000A;
+  --sky:#5BB0D7; --gold-line:#B8902F;
+  --ink:#0C121A; --muted:#5D646F; --bezel:#162120;
+  --font-display:"Fraunces","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --gut:56px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto;overflow-x:clip}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 96;font-weight:500;letter-spacing:-.015em;line-height:1.08;text-wrap:balance;margin:0;color:var(--teal-ink)}
+h2{font-size:clamp(2.1rem,4.4vw,3.6rem)}
+h3{font-size:clamp(1.55rem,2.4vw,2.05rem);font-variation-settings:"SOFT" 100,"opsz" 48}
+p{margin:0}
+a{color:var(--teal)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:6px}
+.ic{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-.125em}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+a.sr:focus{position:fixed!important;left:max(16px,env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));width:auto;height:auto;clip:auto;z-index:200;background:var(--teal);color:#fff;padding:12px 18px;border-radius:12px;text-decoration:none;font-weight:600}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+section{position:relative}
+.sec{padding-block:clamp(88px,12vw,160px)}
+.eyebrow{font-size:.8rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-2);display:flex;align-items:center;gap:.6em;margin-bottom:18px}
+.eyebrow::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--coral-deep)}
+.lede{font-size:clamp(1.1rem,1.6vw,1.3rem);color:var(--muted);max-width:36em}
+.sec-head{max-width:640px;display:grid;gap:20px;margin-bottom:clamp(40px,6vw,72px)}
+.sec-head p:not(.eyebrow){color:var(--muted);font-size:1.12rem}
+.src{font-size:.82rem;color:var(--muted);line-height:1.45}
+.src a{color:inherit}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;letter-spacing:.04em;padding:5px 11px;border-radius:999px;background:var(--sand);color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;border:0;font-weight:600;font-size:1.02rem;text-decoration:none;cursor:pointer;transition:transform .5s var(--ease),box-shadow .5s var(--ease),background .4s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--teal);color:#fff;box-shadow:0 14px 30px -14px rgba(16,78,100,.7)}
+.btn-primary:hover{background:var(--teal-2)}
+.btn-ghost{background:transparent;color:var(--teal-ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn-coral{background:var(--coral);color:var(--teal-ink);box-shadow:0 14px 30px -14px rgba(219,177,85,.55)}
+.btn-sm{min-height:44px;padding:0 18px;font-size:.95rem}
+
+/* ---------- thread ---------- */
+#thread{position:absolute;left:0;top:0;width:100%;pointer-events:none;z-index:0;overflow:visible}
+#thread .t-glow{stroke:var(--sage);stroke-width:9;opacity:.28;fill:none;stroke-linecap:round}
+#thread .t-core{stroke:var(--teal);stroke-width:2.2;fill:none;stroke-linecap:round;opacity:.85}
+#thread .t-ghost{stroke:var(--line);stroke-width:1.5;fill:none;stroke-dasharray:2 7;stroke-linecap:round}
+.pulse-dot{pointer-events:none}
+
+/* ---------- nav ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--cream)}
+.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;transition:background .6s,box-shadow .6s,transform .8s var(--ease)}
+.nav.scrolled{background:rgba(252,252,250,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 72;font-size:1.65rem;font-weight:600;color:var(--teal-ink);text-decoration:none;letter-spacing:-.02em}
+.logo svg{width:30px;height:30px}
+.nav-links{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:.95rem;font-weight:500}
+.nav-links a{text-decoration:none;color:var(--ink);opacity:.82}
+.nav-links a:hover{opacity:1;color:var(--teal)}
+
+/* ---------- opening ---------- */
+#opening{position:fixed;inset:0;z-index:100;background:var(--cream);display:grid;place-items:center}
+#opening svg{width:min(640px,86vw);overflow:visible}
+#opening .ecg{fill:none;stroke:var(--coral);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+#opening .word{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 144;font-size:84px;font-weight:600;fill:var(--teal-ink);letter-spacing:-2px}
+#opening button{position:absolute;bottom:calc(28px + env(safe-area-inset-bottom,0px));right:max(28px,env(safe-area-inset-right,0px));background:none;border:0;color:var(--muted);font-size:.9rem;cursor:pointer;text-decoration:underline}
+
+/* ---------- phone ---------- */
+.phone{position:relative;width:300px;height:620px;max-width:100%;border-radius:48px;padding:11px;background:linear-gradient(145deg,#24302e,var(--bezel));box-shadow:0 50px 90px -40px rgba(12,18,26,.55),0 18px 36px -24px rgba(12,18,26,.4),inset 0 0 0 1.5px #34423f;flex:none}
+.phone::before{content:"";position:absolute;top:21px;left:50%;width:86px;height:25px;margin-left:-43px;border-radius:20px;background:#070b0b;z-index:20}
+.screen{position:relative;width:100%;height:100%;border-radius:38px;overflow:hidden;background:var(--paper);font-size:15px;line-height:1.35;color:var(--ink);isolation:isolate}
+.sbar{position:absolute;top:0;left:0;right:0;height:48px;display:flex;justify-content:space-between;align-items:center;padding:6px 28px 0;font-size:13px;font-weight:600;z-index:15;pointer-events:none}
+.sbar i{font-style:normal;letter-spacing:.06em;font-size:11px}
+.scr-pad{position:absolute;inset:52px 0 0;padding:6px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.s-warm{background:linear-gradient(170deg,#FFFBEB 0%,#FEF3CD 60%,#FBEBB5 100%)}
+.s-cool{background:linear-gradient(170deg,#F5FAFD 0%,#E4F1F9 100%)}
+.s-hello{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 48;font-size:27px;line-height:1.1;color:var(--teal-ink)}
+.s-sub{font-size:16px;color:var(--muted)}
+.big-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;border:0;border-radius:30px;font-weight:700;font-size:27px;cursor:pointer;position:relative;overflow:hidden;transition:transform .35s var(--ease)}
+.big-btn:active{transform:scale(.97)}
+.big-btn .ic{width:42px;height:42px;stroke-width:2.4}
+.bb-ok{background:var(--sage);color:var(--teal-ink);box-shadow:0 18px 30px -18px rgba(19,97,127,.6),inset 0 -6px 0 rgba(0,0,0,.06)}
+.bb-med{background:var(--teal);color:#fff;box-shadow:0 18px 30px -18px rgba(16,78,100,.9)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);pointer-events:none}
+.notif{position:absolute;left:10px;right:10px;top:50px;z-index:16;display:flex;gap:10px;align-items:center;padding:11px 13px;border-radius:20px;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 16px 30px -14px rgba(12,18,26,.45);font-size:13.5px;transform:translateY(-220%);opacity:0}
+.notif .n-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--teal);color:#fff;flex:none}
+.notif b{display:block;font-size:12px;color:var(--muted);font-weight:600}
+.notif.alert{background:rgba(253,232,232,.97)}
+.notif.alert .n-ic{background:var(--alert)}
+.c-card{background:#fff;border-radius:18px;padding:12px 14px;box-shadow:0 1px 0 rgba(12,18,26,.06),0 8px 18px -14px rgba(12,18,26,.35)}
+.c-row{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.c-row + .c-row{margin-top:9px;padding-top:9px;border-top:1px solid #EEF1F4}
+.chip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:999px}
+.chip-ok{background:var(--sage-soft);color:var(--sage-ink)}
+.chip-wait{background:#EEF1F4;color:var(--muted)}
+.chip-alert{background:var(--alert-soft);color:var(--alert-ink)}
+.dot-ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;background:#E9F4FA;color:var(--teal)}
+.c-row .grow{flex:1;min-width:0}
+.c-row small{display:block;color:var(--muted);font-size:11.5px}
+
+/* ---------- hero ---------- */
+.hero{padding-top:calc(130px + env(safe-area-inset-top,0px));padding-bottom:70px;overflow:hidden}
+.hero-sky{position:absolute;inset:0;z-index:-1;transition:background 1.2s}
+.hero-inner{display:grid;gap:26px;justify-items:start;position:relative;z-index:2}
+.hero h1{font-size:clamp(2.9rem,7.4vw,6.4rem);font-weight:450;max-width:11.5em;line-height:1.02;letter-spacing:-.03em}
+.hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
+.hero h1 .w > span{display:inline-block}
+.hero h1 em{font-style:italic;color:var(--teal-ink);background:linear-gradient(transparent 64%,var(--coral) 64%,var(--coral) 92%,transparent 92%);padding:0 .06em;font-variation-settings:"SOFT" 100,"opsz" 144}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:6px}
+.hero-facts{display:flex;flex-wrap:wrap;gap:8px 22px;list-style:none;padding:0;margin:4px 0 0;font-size:.95rem;color:var(--muted)}
+.hero-facts li{display:flex;align-items:center;gap:8px}
+.hero-facts .ic{color:var(--sage-ink)}
+.hero-stage{position:relative;display:flex;justify-content:space-between;align-items:flex-start;max-width:1060px;margin:56px auto 0;padding-inline:max(var(--gut),env(safe-area-inset-left,0px));perspective:1400px}
+.hp{display:grid;gap:14px;justify-items:center;will-change:transform}
+.hp-care{margin-top:90px}
+.hp .phone{transform-style:preserve-3d}
+.hp-cap{font-size:.9rem;color:var(--muted);display:flex;gap:8px;align-items:center}
+.hp-cap .ic{color:var(--teal-2)}
+.ta{position:absolute;width:1px;height:1px;pointer-events:none}
+.hero-mid{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);text-align:center;font-size:.85rem;color:var(--muted);max-width:220px;line-height:1.4}
+.hero-mid strong{display:block;font-family:var(--font-display);font-size:1.2rem;color:var(--teal-ink);font-weight:500}
+.thumb{position:absolute;width:62px;height:82px;border-radius:40px 40px 34px 34px;background:radial-gradient(ellipse at 40% 30%,#E9B99A,#C98E6C);opacity:0;z-index:18;pointer-events:none;box-shadow:0 10px 20px -8px rgba(0,0,0,.35)}
+.thumb::after{content:"";position:absolute;left:14px;top:8px;width:34px;height:26px;border-radius:50%;background:rgba(255,236,224,.75)}
+.hero-link-m{display:none}
+.sky-note{position:absolute;right:max(var(--gut),env(safe-area-inset-right,0px));bottom:22px;font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:8px}
+.sky-note .ic{color:var(--coral-deep)}
+
+/* ---------- problem ---------- */
+.problem-stage{min-height:100vh;display:flex;align-items:center;padding-block:110px 60px}
+.problem-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;align-items:center;width:100%}
+.problem-copy{display:grid;gap:28px;min-width:0}
+.stats{display:grid;gap:40px}
+.stat{display:grid;gap:10px;max-width:30em}
+.stat-num{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 144;font-size:clamp(3.6rem,8vw,7rem);line-height:.95;color:var(--teal);font-weight:400;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.stat-num .unit{font-size:.36em;letter-spacing:-.01em;margin-left:.15em;color:var(--teal-2)}
+.stat-text{font-size:1.22rem;color:var(--ink);max-width:24em}
+.stat-steps{display:none;gap:10px;list-style:none;padding:0;margin:0}
+.stat-steps li{width:36px;height:4px;border-radius:4px;background:var(--line);overflow:hidden;position:relative}
+.stat-steps li i{position:absolute;inset:0;background:var(--coral-deep);transform:scaleX(0);transform-origin:left}
+.problem.pinned .stats{position:relative;min-height:330px}
+.problem.pinned .stat{position:absolute;inset:0 0 auto}
+.problem.pinned .stat-steps{display:flex}
+.map-wrap{position:relative;min-width:0}
+.map-wrap canvas,.map-wrap svg{display:block;width:100%;height:auto}
+.map-wrap svg{position:absolute;inset:0;overflow:visible}
+.arc{fill:none;stroke:var(--teal-2);stroke-width:1.6;stroke-linecap:round;opacity:.75}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.85rem;color:var(--muted);margin-top:14px}
+.map-legend span{display:flex;align-items:center;gap:7px}
+.map-legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* ---------- two worlds ---------- */
+.worlds-stage{min-height:100vh;display:flex;flex-direction:column;padding-block:110px 40px}
+.worlds-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:30px;width:100%}
+.worlds-head h2{max-width:9.5em}
+.worlds-head .lede{max-width:24em}
+.moments{position:relative;flex:1;display:grid;gap:20px;max-width:1240px;margin:0 auto;width:100%;padding-left:max(var(--gut),env(safe-area-inset-left,0px));padding-right:max(var(--gut),env(safe-area-inset-right,0px))}
+.moment{display:grid;grid-template-columns:1fr 1fr;border-radius:32px;overflow:hidden;min-height:420px;background:var(--paper)}
+.half{position:relative;padding:34px clamp(22px,4vw,56px);display:flex;flex-direction:column;justify-content:center;gap:18px;min-width:0}
+.half.sen{background:linear-gradient(160deg,#FFFAE8,#FCEBB8)}
+.half.car{background:linear-gradient(160deg,#F2F8FC,#DCEDF7)}
+.half-label{position:absolute;top:22px;left:clamp(22px,4vw,56px);font-size:.78rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.m-time{font-variant-numeric:tabular-nums;font-weight:600;color:var(--teal-2);font-size:.95rem}
+.sen .m-say{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 72;font-size:clamp(1.7rem,2.8vw,2.5rem);line-height:1.1;color:var(--teal-ink);max-width:12em}
+.sen .big-btn{max-width:380px;min-height:120px;font-size:clamp(1.5rem,2.4vw,2rem)}
+.m-quiet{display:flex;align-items:center;gap:16px;background:#fff;border-radius:22px;padding:18px 20px;max-width:420px;box-shadow:0 12px 30px -20px rgba(12,18,26,.5)}
+.m-quiet .chk{width:44px;height:44px;border-radius:50%;background:var(--sage);color:var(--teal-ink);display:grid;place-items:center;flex:none}
+.m-quiet .chk .ic{width:24px;height:24px;stroke-width:3}
+.m-quiet b{display:block;font-size:1.05rem}
+.m-quiet span{color:var(--muted);font-size:.92rem}
+.car .m-note{color:var(--muted);font-size:1rem;max-width:26em}
+.mini-cards{display:flex;gap:10px}
+.mini-cards i{width:64px;height:84px;border-radius:14px;background:var(--teal);display:grid;place-items:center;color:#fff;box-shadow:0 10px 18px -12px rgba(12,18,26,.8)}
+.mini-cards i.up{background:#fff;color:var(--gold-line)}
+.mini-cards .ic{width:30px;height:30px}
+.worlds.pinned .moments{display:block}
+.worlds.pinned .moment{position:absolute;inset:0 max(var(--gut),env(safe-area-inset-right,0px)) 0 max(var(--gut),env(safe-area-inset-left,0px));min-height:0}
+.w-divider{display:none}
+.worlds.pinned .w-divider{display:block;position:absolute;top:-14px;bottom:-14px;left:50%;width:2px;margin-left:-1px;background:var(--teal);z-index:5;pointer-events:none}
+.w-clock{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--teal);color:#fff;border-radius:999px;padding:8px 16px;font-weight:600;font-size:.95rem;white-space:nowrap;font-variant-numeric:tabular-nums;box-shadow:0 10px 24px -10px rgba(12,18,26,.6)}
+.w-sweep{display:none}
+.worlds.pinned .w-sweep{display:block;position:absolute;top:0;bottom:0;width:3px;left:0;background:linear-gradient(var(--coral),var(--sage));box-shadow:0 0 24px 6px rgba(246,212,118,.55);z-index:6;opacity:0;pointer-events:none}
+
+/* ---------- features ---------- */
+.feat-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(40px,8vw,140px)}
+.feat-list{display:grid;min-width:0}
+.feat{min-height:84vh;display:flex;flex-direction:column;justify-content:center;gap:18px;max-width:30em;padding-block:40px;opacity:.35;transition:opacity .9s var(--ease)}
+.feat.on{opacity:1}
+.feat-k{display:flex;align-items:center;gap:10px;font-weight:600;color:var(--teal-2);font-size:.95rem}
+.feat-k .ic{width:22px;height:22px}
+.feat p{color:var(--muted)}
+.feat ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.feat li{display:flex;gap:10px;align-items:baseline}
+.feat li .ic{color:var(--sage-ink);transform:translateY(3px)}
+.feat-sticky{position:sticky;top:max(110px,calc(50vh - 330px));display:grid;justify-items:center;gap:16px}
+.fs{position:absolute;inset:0;opacity:0;visibility:hidden}
+.fs.on{opacity:1;visibility:visible}
+.fs-title{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 36;font-size:21px;color:var(--teal-ink)}
+.feat-cap{font-size:.85rem;color:var(--muted);text-align:center;min-height:1.4em}
+.hub-src{display:flex;justify-content:space-around;padding-top:10px}
+.hub-src div{width:66px;height:66px;border-radius:20px;background:#fff;display:grid;place-items:center;color:var(--teal);box-shadow:0 10px 20px -14px rgba(12,18,26,.6)}
+.hub-src .ic{width:30px;height:30px}
+.hub-flow{position:relative;height:110px}
+.hub-flow i{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--teal-2);opacity:0}
+.vit{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vit div{background:#F4F7FA;border-radius:14px;padding:10px 12px}
+.vit b{display:block;font-size:20px;font-weight:600;color:var(--teal-ink);font-variant-numeric:tabular-nums}
+.vit small{font-size:11.5px;color:var(--muted)}
+.pill-drop{width:74px;height:74px;margin:6px auto 0;border-radius:24px;background:#fff;display:grid;place-items:center;color:var(--teal-2);box-shadow:0 12px 24px -14px rgba(0,0,0,.4)}
+.pill-drop .ic{width:38px;height:38px}
+.burst{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+.burst i{position:absolute;width:9px;height:9px;margin:-4.5px;border-radius:50%;background:var(--sage)}
+.scan-view{position:relative;height:300px;border-radius:26px;background:linear-gradient(180deg,#3A4644,#26302F);overflow:hidden}
+.scale-art{position:absolute;left:50%;top:54%;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:40px;background:linear-gradient(160deg,#F4F1EC,#D8D3CB);box-shadow:0 20px 40px -12px rgba(0,0,0,.6)}
+.scale-lcd{position:absolute;left:30px;right:30px;top:34px;height:62px;border-radius:12px;background:#1E2A22;color:#B9F0B1;font:600 34px/62px ui-monospace,"SF Mono",Menlo,monospace;text-align:center;letter-spacing:2px;font-variant-numeric:tabular-nums}
+.scale-sticker{position:absolute;right:16px;bottom:16px;width:34px;height:34px;border-radius:50%;background:var(--coral);box-shadow:inset 0 0 0 5px #fff,inset 0 0 0 7px var(--coral)}
+.vf{position:absolute;inset:34px 30px;pointer-events:none}
+.vf i{position:absolute;width:30px;height:30px;border:3px solid #fff}
+.vf i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0;border-radius:10px 0 0 0}
+.vf i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0;border-radius:0 10px 0 0}
+.vf i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0;border-radius:0 0 0 10px}
+.vf i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0;border-radius:0 0 10px 0}
+.scanline{position:absolute;left:24px;right:24px;top:30px;height:3px;border-radius:3px;background:var(--sage);box-shadow:0 0 18px 4px rgba(142,200,232,.8);opacity:0}
+.cards4{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;perspective:700px}
+.card3d{position:relative;aspect-ratio:3/4;transform-style:preserve-3d}
+.card3d > *{position:absolute;inset:0;border-radius:14px;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.card3d .back{background:var(--teal);color:rgba(255,255,255,.4)}
+.card3d .face{background:#fff;color:var(--gold-line);transform:rotateY(180deg);box-shadow:inset 0 0 0 2px var(--sage)}
+.card3d .ic{width:30px;height:30px}
+.spark{width:100%;height:84px;display:block;overflow:visible}
+.ring-wrap{position:relative;width:200px;height:200px;margin:8px auto 0}
+.ring-wrap svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-track{fill:none;stroke:#E6ECF1;stroke-width:12}
+.ring-val{fill:none;stroke:var(--sage);stroke-width:12;stroke-linecap:round;transition:stroke .6s}
+.ring-mid{position:absolute;inset:0;display:grid;place-items:center;text-align:center}
+.ring-mid b{font-size:46px;font-weight:600;color:var(--teal-ink);font-variant-numeric:tabular-nums;line-height:1}
+.ring-mid small{display:block;font-size:12px;color:var(--muted);margin-top:4px}
+.ws-inputs{position:relative;height:250px}
+.ws-inputs .chip{position:absolute;font-size:12px;padding:6px 10px;background:#fff;box-shadow:0 8px 18px -10px rgba(12,18,26,.5);color:var(--teal-ink)}
+
+/* ---------- demo ---------- */
+.demo-head{display:grid;gap:18px;max-width:560px;margin-bottom:46px}
+.demo-head .tag{justify-self:start}
+.demo-stage{display:grid;grid-template-columns:auto minmax(120px,280px) auto;justify-content:center;align-items:center;gap:0}
+.dcol{display:grid;justify-items:center;gap:14px}
+.dcol-label{font-weight:600;font-size:.95rem;color:var(--teal-ink);display:flex;align-items:center;gap:8px}
+.bridge{width:100%;height:160px;overflow:visible}
+.bridge path{fill:none;stroke:var(--teal);stroke-width:2;opacity:.6;stroke-dasharray:3 6}
+.demo-toggle{display:none}
+.sv{position:absolute;inset:0;padding:56px 18px 20px;display:flex;flex-direction:column;gap:12px}
+.sv-home .tiles{display:grid;gap:10px}
+.tile{display:flex;align-items:center;gap:14px;width:100%;min-height:66px;padding:0 16px;border-radius:22px;border:0;background:#fff;font-size:20px;font-weight:600;color:var(--teal-ink);cursor:pointer;text-align:left;box-shadow:0 10px 18px -14px rgba(12,18,26,.55);transition:transform .3s var(--ease)}
+.tile:active{transform:scale(.97)}
+.tile .ic{width:28px;height:28px;color:var(--teal-2)}
+.tile.done{background:var(--sage-soft)}
+.tile .tick{margin-left:auto;color:var(--sage-ink)}
+.next-card{background:rgba(255,255,255,.6);border-radius:26px;padding:14px;display:grid;gap:10px}
+.next-card p{font-size:17px;font-weight:600;color:var(--teal-ink)}
+.next-card .big-btn{min-height:104px}
+.back-btn{align-self:flex-start;display:flex;align-items:center;gap:6px;border:0;background:rgba(255,255,255,.75);border-radius:999px;padding:10px 16px;font-size:17px;font-weight:600;color:var(--teal-ink);cursor:pointer}
+.ring-sm{position:relative;width:150px;height:150px;margin:0 auto}
+.ring-sm svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring-sm .rv{fill:none;stroke:var(--teal);stroke-width:10;stroke-linecap:round}
+.ring-sm .rt{fill:none;stroke:rgba(16,78,100,.12);stroke-width:10}
+.ring-sm div{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-weight:600;font-size:15px;color:var(--teal-ink);line-height:1.2}
+.mm-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;perspective:700px}
+.mm-card{position:relative;aspect-ratio:3/4;border:0;padding:0;background:none;cursor:pointer;transform-style:preserve-3d;transition:transform .6s var(--ease)}
+.mm-card.flip{transform:rotateY(180deg)}
+.mm-card > span{position:absolute;inset:0;border-radius:16px;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.mm-card .b{background:var(--teal);color:rgba(255,255,255,.35)}
+.mm-card .f{background:#fff;color:var(--gold-line);transform:rotateY(180deg)}
+.mm-card.matched .f{background:var(--sage-soft);color:var(--sage-ink)}
+.mm-card .ic{width:34px;height:34px}
+.care-scroll{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;padding:54px 14px 18px;display:flex;flex-direction:column;gap:10px;scrollbar-width:none}
+.care-scroll::-webkit-scrollbar{display:none}
+.c-head{display:flex;align-items:center;gap:12px}
+.c-head .avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#8EC8E8,#5BB0D7);display:grid;place-items:center;font-family:var(--font-display);font-weight:600;color:#fff;font-size:18px}
+.c-head b{display:block;font-size:16px}
+.c-head small{color:var(--muted);font-size:12px}
+.c-score{display:flex;align-items:center;gap:14px}
+.c-score .ring-sm{width:86px;height:86px;margin:0}
+.c-score .ring-sm .rv{stroke:var(--sage);stroke-width:9}
+.c-score .ring-sm div{font-size:24px}
+.c-score p{font-size:12.5px;color:var(--muted)}
+.c-score p b{display:block;font-size:15px;color:var(--teal-ink)}
+.c-sec{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:4px 2px -2px}
+.alerts{display:grid;gap:8px}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:14px;font-size:12.5px;background:var(--sage-soft);color:var(--teal-ink)}
+.alert.bad{background:var(--alert-soft);color:var(--alert-ink)}
+.alert .ic{width:18px;height:18px;margin-top:1px}
+.alert small{display:block;opacity:.8;font-size:11px}
+.chart-card svg{width:100%;height:70px;display:block;overflow:visible}
+.chart-card .ct{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.chart-card .ct span{color:var(--muted);font-weight:500}
+.vit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vit-row div{background:#fff;border-radius:14px;padding:9px 11px;font-size:11.5px;color:var(--muted)}
+.vit-row b{display:block;font-size:17px;color:var(--teal-ink);font-variant-numeric:tabular-nums}
+.shake{animation:shake .5s cubic-bezier(.36,.07,.19,.97) 2}
+@keyframes shake{10%,90%{transform:translateX(-2px) rotate(-.6deg)}20%,80%{transform:translateX(4px) rotate(.8deg)}30%,50%,70%{transform:translateX(-6px) rotate(-1deg)}40%,60%{transform:translateX(6px) rotate(1deg)}}
+.snap-layer{position:absolute;inset:0;z-index:12;display:none;flex-direction:column;gap:12px;padding:56px 18px 20px}
+.snap-layer.on{display:flex}
+.snap-layer .snap-tag{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:var(--teal);color:#fff;padding:4px 10px;border-radius:999px}
+.demo-controls{margin:44px auto 0;max-width:980px;display:grid;gap:22px;padding:24px;border-radius:28px;background:var(--paper);box-shadow:0 30px 60px -40px rgba(12,18,26,.45),inset 0 0 0 1px var(--line)}
+.dc-btns{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.dc-btns .btn{min-height:48px;font-size:.98rem}
+.dc-btns .btn .ic{width:20px;height:20px}
+.btn-soft{background:var(--sand);color:var(--teal-ink)}
+.btn-soft.coral{background:var(--alert-soft);color:var(--alert-ink)}
+.btn[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.scrub{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px}
+.scrub label{font-weight:600;font-size:.98rem}
+.scrub output{font-variant-numeric:tabular-nums;font-weight:600;color:var(--teal);min-width:7.5em;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#FCEFC2,#FBF3D6 35%,#E2F1F9 60%,#C9E4F3 85%,#9CCBE4)}
+input[type=range]::-moz-range-track{height:6px;border-radius:6px;background:linear-gradient(90deg,#FCEFC2,#FBF3D6 35%,#E2F1F9 60%,#C9E4F3 85%,#9CCBE4)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;margin-top:-10px;border-radius:50%;background:#fff;border:3px solid var(--teal);box-shadow:0 4px 10px rgba(0,0,0,.2)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--teal)}
+.week-track{position:relative;height:64px;display:none}
+.week-track.on{display:block}
+.week-track .days{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.week-track .days span{width:14.28%;text-align:center}
+.week-track .days span.lit{color:var(--teal-ink);font-weight:600}
+.week-track .arc-path{position:absolute;left:0;right:0;top:0;height:44px;width:100%}
+.week-track .sun{position:absolute;left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:radial-gradient(circle,#FBE08A,#DBB155);box-shadow:0 0 18px 6px rgba(232,212,77,.5)}
+.dc-note{font-size:.85rem;color:var(--muted)}
+
+/* ---------- report ---------- */
+.report-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,8vw,140px);align-items:center}
+.report-copy{display:grid;gap:20px;max-width:30em}
+.report-copy p{color:var(--muted)}
+.env-stage{position:relative;height:700px;perspective:1600px;display:grid;place-items:end center}
+.env{position:relative;width:min(440px,100%);height:280px;perspective:1200px}
+.env-back,.env-front,.env-flap{position:absolute;left:0;right:0;border-radius:14px}
+.env-back{inset:0;background:#DCE9F1}
+.env-front{inset:0;background:linear-gradient(180deg,#EEF5F9,#E2EEF5);clip-path:polygon(0 18%,50% 62%,100% 18%,100% 100%,0 100%);z-index:4;box-shadow:0 30px 50px -30px rgba(0,0,0,.35)}
+.env-flap{top:0;height:62%;background:#D3E4EE;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;z-index:5}
+.env-seal{position:absolute;left:50%;top:52%;width:46px;height:46px;margin-left:-23px;border-radius:50%;background:var(--coral);z-index:6;display:grid;place-items:center;color:var(--teal-ink);box-shadow:0 6px 12px -4px rgba(219,177,85,.6)}
+.sheet{position:absolute;left:0;right:0;margin:0 auto;bottom:24px;width:min(400px,92%);z-index:3;transform-style:preserve-3d}
+.sheet-top,.sheet-bot{background:#fff;padding:20px 22px;box-shadow:0 20px 40px -24px rgba(12,18,26,.45)}
+.sheet-top{border-radius:14px 14px 0 0}
+.sheet-bot{border-radius:0 0 14px 14px;transform-origin:top;border-top:1px dashed var(--line)}
+.rp-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.rp-h b{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 36;font-size:22px;font-weight:500;color:var(--teal-ink)}
+.rp-h span{font-size:12px;color:var(--muted)}
+.rp-chart{margin-bottom:12px}
+.rp-chart .ct{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px}
+.rp-chart .ct span{font-weight:500;color:var(--muted)}
+.rp-chart svg{width:100%;height:62px;display:block;overflow:visible}
+.rp-flags{display:grid;gap:8px;font-size:13.5px}
+.rp-flag{padding:8px 10px;border-radius:10px;background:#F4F7FA;position:relative;overflow:hidden}
+.rp-flag.hot::before{content:"";position:absolute;inset:0;background:var(--alert-soft);transform:scaleX(var(--hl,0));transform-origin:left;z-index:0;transition:transform 1s var(--ease)}
+.rp-flag span{position:relative;z-index:1}
+.rp-foot{margin-top:12px;font-size:11.5px;color:var(--muted)}
+
+/* ---------- setup ---------- */
+.setup-stage{padding-block:110px 60px;overflow:hidden}
+.setup-head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:44px}
+.setup-head .sec-head{margin:0}
+.setup-prog{display:flex;gap:8px;list-style:none;margin:0;padding:0}
+.setup-prog li{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:600;background:var(--sand);color:var(--muted);transition:background .6s,color .6s}
+.setup-prog li.on{background:var(--teal);color:#fff}
+.setup-track{display:flex;gap:clamp(24px,4vw,56px);list-style:none;margin:0;padding:0 max(var(--gut),env(safe-area-inset-right,0px)) 10px max(var(--gut),env(safe-area-inset-left,0px));overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.setup.pinned .setup-track{overflow:visible;width:max-content}
+.step{flex:none;width:min(560px,86vw);display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;scroll-snap-align:start}
+.step .phone{width:240px;height:496px;border-radius:40px;padding:9px}
+.step .phone::before{top:17px;width:70px;height:21px;margin-left:-35px}
+.step .screen{border-radius:32px}
+.step-copy{display:grid;gap:12px;min-width:0}
+.step-n{font-size:.82rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--coral-ink)}
+.step-copy p:not(.step-n){color:var(--muted);font-size:1rem}
+.st-pad{position:absolute;inset:50px 14px 16px;display:flex;flex-direction:column;gap:10px}
+.role-btn{border-radius:22px;padding:16px;display:grid;gap:4px;background:#fff;font-size:19px;font-weight:700;color:var(--teal-ink);text-align:left;box-shadow:0 8px 16px -12px rgba(12,18,26,.5);position:relative}
+.role-btn small{font-size:12px;font-weight:500;color:var(--muted)}
+.role-btn.sel{box-shadow:inset 0 0 0 3px var(--teal),0 8px 16px -12px rgba(12,18,26,.5)}
+.plan-mini{border-radius:18px;padding:12px 14px;background:#fff;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.plan-mini.rec{box-shadow:inset 0 0 0 2.5px var(--sage-ink)}
+.plan-mini b{font-size:15px;display:block}
+.plan-mini strong{font-size:17px;color:var(--teal-ink)}
+.code-boxes{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.code-boxes span{height:56px;border-radius:14px;background:#fff;display:grid;place-items:center;font-size:28px;font-weight:700;color:var(--teal-ink);box-shadow:inset 0 0 0 2px var(--line);font-variant-numeric:tabular-nums}
+.code-boxes span.f{box-shadow:inset 0 0 0 2.5px var(--teal)}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:auto}
+.keypad i{height:40px;border-radius:12px;background:rgba(255,255,255,.7);display:grid;place-items:center;font-style:normal;font-weight:600;font-size:18px}
+.perm-sheet{margin-top:auto;background:rgba(255,255,255,.96);border-radius:20px;padding:16px;text-align:center;display:grid;gap:8px;font-size:13px;box-shadow:0 20px 40px -20px rgba(0,0,0,.4)}
+.perm-sheet b{font-size:15px}
+.perm-sheet .pbtns{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #E6E6E6;margin:6px -16px -16px}
+.perm-sheet .pbtns span{padding:12px;color:#2F6FDB;font-weight:500}
+.perm-sheet .pbtns span + span{border-left:1px solid #E6E6E6;font-weight:700;position:relative}
+.tap-ring{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px;border-radius:50%;border:3px solid var(--coral-deep);pointer-events:none}
+.perm-list{display:grid;gap:6px;font-size:12.5px}
+.perm-list span{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.75);border-radius:12px;padding:8px 10px}
+.perm-list span.ok .ic{color:var(--sage-ink)}
+
+/* ---------- why ---------- */
+.why-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,7vw,110px);align-items:end}
+.cost-chart{width:100%;height:auto;overflow:visible;display:block}
+.cost-chart text{font-family:var(--font-body);fill:var(--ink)}
+.cost-chart .lbl{font-size:15px;font-weight:600}
+.cost-chart .val{font-size:15px;font-weight:600;fill:var(--teal-ink)}
+.cost-chart .axis{stroke:var(--line);stroke-width:1}
+.cost-chart .grid-t{font-size:12px;fill:var(--muted)}
+.cmp-wrap{margin-top:64px;overflow-x:auto;border-radius:24px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line)}
+.cmp{width:100%;min-width:720px;border-collapse:collapse;font-size:.98rem}
+.cmp th,.cmp td{padding:16px 18px;text-align:left;border-bottom:1px solid var(--line)}
+.cmp thead th{font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.cmp thead th.us{color:var(--teal);}
+.cmp td.us{background:rgba(142,200,232,.16);font-weight:600;color:var(--teal-ink)}
+.cmp tr:last-child td{border-bottom:0}
+.cmp .yes{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--sage);color:var(--teal-ink)}
+.cmp .yes .ic{width:16px;height:16px;stroke-width:3}
+.cmp .no{color:var(--muted)}
+.why-notes{margin-top:18px;display:grid;gap:6px;max-width:62em}
+
+/* ---------- pricing ---------- */
+.finder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:clamp(30px,6vw,90px);align-items:start;margin-bottom:70px}
+.q-stack{position:relative;height:580px;perspective:1200px}
+.q-card{position:absolute;inset:0 0 auto;height:300px;transform-style:preserve-3d}
+.q-card > div{position:absolute;inset:0;border-radius:28px;padding:28px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;gap:16px}
+.q-front{background:var(--paper);box-shadow:0 30px 50px -36px rgba(12,18,26,.6),inset 0 0 0 1px var(--line)}
+.q-back{background:var(--teal);color:#fff;transform:rotateY(180deg);justify-content:flex-start;gap:4px!important}
+.q-back b{font-family:var(--font-display);font-size:1.6rem;font-weight:500}
+.q-n{font-size:.82rem;font-weight:600;color:var(--coral-ink);letter-spacing:.08em;text-transform:uppercase}
+.q-front h3{font-size:1.7rem}
+.q-opts{display:grid;gap:10px;margin-top:auto}
+.q-opt{min-height:52px;border-radius:16px;border:0;background:var(--sand);font-weight:600;font-size:1.02rem;color:var(--teal-ink);cursor:pointer;text-align:left;padding:0 18px;transition:background .3s}
+.q-opt:hover{background:var(--sage-soft)}
+.finder-out{display:grid;gap:14px;align-content:start}
+.finder-out .note{color:var(--muted);font-size:1rem;min-height:3em}
+.plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:stretch}
+.plan{position:relative;border-radius:28px;padding:30px;background:var(--paper);box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:14px;transition:transform .9s var(--ease),opacity .9s var(--ease),box-shadow .9s var(--ease),filter .9s}
+.plan h3{font-size:1.5rem}
+.plan .price{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 144;font-size:3rem;color:var(--teal-ink);line-height:1;font-weight:500}
+.plan .price small{font-family:var(--font-body);font-size:1rem;color:var(--muted);font-weight:500}
+.plan p{color:var(--muted);font-size:.98rem}
+.plan ul{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:.98rem}
+.plan li{display:flex;gap:9px;align-items:baseline}
+.plan li .ic{color:var(--sage-ink);transform:translateY(3px)}
+.plan .btn{margin-top:auto}
+.plan .rec-tag{position:absolute;top:-13px;left:30px;background:var(--coral);color:var(--teal-ink);font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;opacity:0;transform:translateY(6px);transition:all .6s var(--ease)}
+.plans.chosen .plan{opacity:.5;filter:saturate(.6)}
+.plans.chosen .plan.rec{opacity:1;filter:none;transform:translateY(-14px);box-shadow:inset 0 0 0 2px var(--sage-ink),0 0 0 8px rgba(142,200,232,.25),0 40px 70px -30px rgba(16,78,100,.55)}
+.plans.chosen .plan.rec .rec-tag{opacity:1;transform:none}
+
+/* ---------- founders ---------- */
+.f-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(40px,7vw,110px);align-items:center}
+.dfw{position:relative;border-radius:32px;overflow:hidden;background:#EAF2F7;aspect-ratio:1/1;max-width:100%}
+.dfw svg{width:100%;height:100%;display:block}
+.dfw .tx{fill:#FFFFFF;stroke:#CCD8E2;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.dfw .road{fill:none;stroke:#DDE6EE;stroke-width:3;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.dfw .lake{fill:#C4E1F1}
+.dfw .city-lbl{font-family:var(--font-body);font-weight:600;fill:var(--teal-ink)}
+.dfw .ref-lbl{font-family:var(--font-body);fill:var(--muted)}
+.count-card{position:absolute;right:20px;top:20px;background:rgba(255,255,255,.94);border-radius:20px;padding:14px 18px;box-shadow:0 20px 40px -24px rgba(12,18,26,.5)}
+.count-card b{font-family:var(--font-display);font-size:2.6rem;line-height:1;color:var(--teal-ink);font-weight:500;font-variant-numeric:tabular-nums}
+.count-card span{display:block;font-size:.9rem;color:var(--muted)}
+.traction{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:26px 0 34px}
+.traction div{background:var(--paper);border-radius:18px;padding:14px 16px;box-shadow:inset 0 0 0 1px var(--line);font-size:.95rem;color:var(--muted)}
+.traction b{display:block;font-size:1.05rem;color:var(--teal-ink)}
+.founders{display:grid;gap:16px}
+.founder{display:flex;gap:18px;align-items:flex-start;background:var(--paper);border-radius:24px;padding:20px;box-shadow:0 20px 40px -34px rgba(12,18,26,.6),inset 0 0 0 1px var(--line)}
+.founder .avatar{width:58px;height:58px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--font-display);font-size:1.3rem;font-weight:600;color:#fff}
+.founder b{display:block;font-size:1.1rem;color:var(--teal-ink)}
+.founder small{display:block;color:var(--coral-ink);font-weight:600;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.founder p{color:var(--muted);font-size:.98rem}
+.award{position:relative;display:flex;gap:16px;align-items:center;margin-top:24px;padding:18px 22px;border-radius:24px;background:var(--teal);color:#fff;transform-origin:50% -40px}
+.award::before{content:"";position:absolute;left:50%;top:-40px;width:2px;height:40px;background:var(--line)}
+.award .medal{width:58px;height:58px;border-radius:50%;flex:none;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#FBE6A0,#DBB155);color:var(--teal-ink)}
+.award .medal .ic{width:28px;height:28px}
+.award b{display:block;font-family:var(--font-display);font-size:1.25rem;font-weight:500}
+.award span{font-size:.95rem;opacity:.85}
+
+/* ---------- roadmap ---------- */
+.road{position:relative;display:grid;gap:clamp(60px,9vw,110px);max-width:1040px;margin:0 auto}
+.phase{display:grid;grid-template-columns:1fr 64px 1fr;align-items:center;gap:24px}
+.phase .p-card{background:var(--paper);border-radius:26px;padding:26px;box-shadow:inset 0 0 0 1px var(--line);display:grid;gap:12px;transition:box-shadow .9s var(--ease),transform .9s var(--ease),opacity .9s;opacity:.55}
+.phase.lit .p-card{opacity:1;box-shadow:inset 0 0 0 2px var(--sage),0 30px 60px -36px rgba(16,78,100,.55)}
+.phase:nth-child(even) .p-card{grid-column:3}
+.phase:nth-child(even) .p-side{grid-column:1;grid-row:1;text-align:right}
+.p-node{grid-column:2;grid-row:1;justify-self:center;width:30px;height:30px;border-radius:50%;background:var(--cream);box-shadow:inset 0 0 0 3px var(--line);position:relative;transition:box-shadow .8s,background .8s}
+.phase.lit .p-node{background:var(--coral);box-shadow:0 0 0 8px rgba(246,212,118,.35),0 0 30px 6px rgba(246,212,118,.55)}
+.p-side{font-family:var(--font-display);font-variation-settings:"SOFT" 100,"opsz" 144;font-size:clamp(3rem,6vw,5rem);color:var(--line);line-height:1;transition:color .9s}
+.phase.lit .p-side{color:var(--teal)}
+.p-card ul{margin:0;padding:0;list-style:none;display:grid;gap:7px;color:var(--muted);font-size:1rem}
+.p-card li{display:flex;gap:9px;align-items:baseline}
+.p-card li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sage);flex:none;transform:translateY(-2px)}
+.p-card .tag{justify-self:start}
+
+/* ---------- cta ---------- */
+.cta{text-align:center;padding-bottom:90px}
+.cta .sec-head{margin-inline:auto;justify-items:center}
+.cta .eyebrow{justify-content:center}
+.heart-stage{position:relative;width:min(640px,100%);margin:0 auto;aspect-ratio:1/.92}
+.heart-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.heart-svg .h-fill{fill:var(--coral-soft);opacity:.0}
+.heart-svg .h-line{fill:none;stroke:var(--coral-deep);stroke-width:3;stroke-linecap:round}
+.heart-beat{position:absolute;inset:0;transform-origin:50% 55%}
+.heart-form{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(340px,64%);display:grid;gap:12px;text-align:left}
+.heart-form label{font-weight:600;font-size:.95rem;color:var(--teal-ink)}
+.heart-form input,.heart-form select{width:100%;min-height:54px;border-radius:16px;border:1.5px solid var(--line);background:#fff;padding:0 16px;font:inherit;font-size:1rem;color:var(--ink)}
+.heart-form input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 4px rgba(16,78,100,.12)}
+.heart-form input[aria-invalid=true]{border-color:var(--alert)}
+.f-err{min-height:1.3em;font-size:.88rem;color:var(--alert-ink);font-weight:500}
+.f-small{font-size:.8rem;color:var(--muted)}
+.done-stage{position:absolute;inset:0;display:none;align-items:center;justify-content:center;gap:clamp(40px,10vw,120px)}
+.done-stage.on{display:flex}
+.done-stage .notif{text-align:left}
+.done-stage .phone{width:200px;height:414px;border-radius:34px;padding:8px}
+.done-stage .phone::before{top:14px;width:60px;height:18px;margin-left:-30px}
+.done-stage .screen{border-radius:27px;font-size:13px}
+.done-stage > svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--line);padding-block:56px calc(40px + env(safe-area-inset-bottom,0px));font-size:.95rem;color:var(--muted)}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.foot a{color:var(--ink);text-decoration:none}
+.foot a:hover{color:var(--teal);text-decoration:underline}
+.socials{display:flex;gap:10px}
+.socials a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--sand)}
+.disclaimer{margin-top:40px;padding-top:24px;border-top:1px solid var(--line);font-size:.85rem;max-width:70em;display:grid;gap:8px}
+
+/* ---------- responsive ---------- */
+@media (min-width:1101px){
+  .hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;padding-top:calc(118px + env(safe-area-inset-top,0px));padding-bottom:80px}
+  .hero-inner{max-width:none;margin:0;padding-left:max(var(--gut),calc((100vw - 1240px)/2 + var(--gut)));padding-right:0}
+  .hero h1{font-size:clamp(3.3rem,5.3vw,5.6rem)}
+  .hero-stage{margin:0;padding:0 var(--gut) 0 0;justify-content:center;gap:76px}
+  .hp .phone{width:284px;height:588px}
+  .hp-care{margin-top:110px}
+  .sky-note{bottom:26px}
+}
+@media (min-width:1101px) and (max-width:1320px){.hero-stage{transform:scale(.86);transform-origin:50% 40%}}
+@media (max-width:1100px){
+  .hero-stage{transform:scale(.88);transform-origin:top center;margin-bottom:-70px}
+  .nav-links{display:none}
+  .nav nav{display:none}
+}
+@media (max-width:860px){
+  :root{--gut:20px}
+  .wrap,.moments,.hero-stage,.setup-track{padding-left:max(38px,env(safe-area-inset-left,0px))!important}
+  body{font-size:18px}
+  .hero{padding-top:calc(110px + env(safe-area-inset-top,0px))}
+  .hero-stage{flex-direction:column;align-items:center;gap:0;transform:none;margin-bottom:0}
+  .hp-care{margin-top:0}
+  .hero-mid{position:static;transform:none;margin:0 auto}
+  .hero-link-m{display:block;width:40px;height:110px;margin:0 auto;overflow:visible}
+  .sky-note{position:static;margin-top:26px;justify-content:center}
+  .problem-grid,.feat-grid,.report-grid,.why-grid,.finder,.f-grid,.foot-grid{grid-template-columns:minmax(0,1fr)}
+  .problem-stage{min-height:0}
+  .problem.pinned .problem-stage{min-height:100vh;padding-block:84px 20px}
+  .problem.pinned .stats{min-height:300px}
+  .problem.pinned .map-wrap{display:none}
+  .moment{grid-template-columns:1fr}
+  .worlds.pinned .w-divider{display:none}
+  .worlds-stage{min-height:0}
+  .feat-grid{display:flex;flex-direction:column;position:relative}
+  .feat-phone-col{order:-1}
+  .feat-phone-col{position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:3;height:0;overflow:visible;display:flex;justify-content:flex-end;pointer-events:none}
+  .feat-sticky{position:static;transform:scale(.48);transform-origin:top right;pointer-events:auto}
+  .feat-cap{display:none}
+  .feat{min-height:auto;padding-block:30px 60px;padding-right:150px;opacity:1}
+  .feat h3{font-size:1.45rem}
+  .demo-stage{grid-template-columns:1fr}
+  .bridge{display:none}
+  .demo-toggle{display:flex;justify-self:center;margin:0 auto 22px;background:var(--sand);border-radius:999px;padding:5px;gap:4px;width:max-content}
+  .demo-toggle button{border:0;background:none;min-height:46px;padding:0 22px;border-radius:999px;font-weight:600;cursor:pointer;position:relative;color:var(--teal-ink)}
+  .demo-toggle button[aria-selected=true]{background:var(--teal);color:#fff}
+  .demo-toggle .badge{position:absolute;top:8px;right:10px;width:9px;height:9px;border-radius:50%;background:var(--coral);opacity:0}
+  .demo-stage .dcol{grid-row:1;grid-column:1;transition:opacity .5s,transform .7s var(--ease)}
+  .demo-stage .dcol.off{opacity:0;pointer-events:none;transform:translateX(30px)}
+  .scrub{grid-template-columns:1fr auto}
+  .scrub input{grid-column:1/-1;grid-row:2}
+  .env-stage{height:640px}
+  .step{grid-template-columns:1fr;justify-items:start;width:min(300px,80vw)}
+  .plans{grid-template-columns:minmax(0,1fr)}
+  .plans.chosen .plan.rec{transform:none}
+  .phase{grid-template-columns:40px 1fr;gap:16px}
+  .phase .p-card,.phase:nth-child(even) .p-card{grid-column:2;grid-row:1}
+  .p-node{grid-column:1}
+  .p-side{display:none}
+  .heart-stage{aspect-ratio:auto;height:560px}
+  .heart-form{width:min(300px,78%);top:45%}
+  .done-stage{gap:28px}
+  .done-stage .phone{width:136px;height:282px;border-radius:26px;padding:6px}
+  .done-stage .screen{border-radius:21px;font-size:11px}
+  .done-stage .phone::before{top:10px;width:40px;height:12px;margin-left:-20px}
+  .done-stage .s-hello{font-size:15px!important}
+  .done-stage .big-btn{min-height:70px!important;font-size:14px!important;border-radius:18px}
+  .done-stage .notif{left:5px;right:5px;padding:7px;font-size:10.5px!important;gap:6px}
+  .traction{grid-template-columns:1fr}
+  .hide-sm{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+  .feat{opacity:1}
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-pill" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-watch" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 6l1-4h4l1 4M9 18l1 4h4l1-4M12 10v2l1 1"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M12 5a3 3 0 0 0-5.9.8A3 3 0 0 0 4 11a3 3 0 0 0 2 5.2A3 3 0 0 0 12 18Z"/><path d="M12 5a3 3 0 0 1 5.9.8A3 3 0 0 1 20 11a3 3 0 0 1-2 5.2A3 3 0 0 1 12 18Z"/><path d="M12 5v13"/></symbol>
+  <symbol id="i-scale" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 8h8l-1.2 3.5H9.2z"/><path d="M12 11.5 13 9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><path d="m3 11 19-9-9 19-2-8-8-2z"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.48 12.89 17 22l-5-3-5 3 1.52-9.11"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="i-ff" viewBox="0 0 24 24"><path d="M13 19l9-7-9-7z"/><path d="M2 19l9-7-9-7z"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+</svg>
+
+<a class="sr" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Carelo home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 18c4 0 5-7 8-7s3 10 6 10 3-6 4-6h6" fill="none" stroke="#5BB0D7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      carelo
+    </a>
+    <nav aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#two-worlds">How it works</a></li>
+        <li><a href="#demo">Live demo</a></li>
+        <li><a href="#why">Why Carelo</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#founders">About us</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#waitlist"><span>Join<span class="hide-sm"> the</span> waitlist</span></a>
+  </div>
+</header>
+
+<svg id="thread" aria-hidden="true"><defs><radialGradient id="pg-ok"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#5BB0D7"/><stop offset="1" stop-color="#5BB0D7" stop-opacity="0"/></radialGradient><radialGradient id="pg-bad"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#E7000B"/><stop offset="1" stop-color="#E7000B" stop-opacity="0"/></radialGradient></defs><path class="t-ghost"/><path class="t-glow"/><path class="t-core"/><g id="pulses"></g></svg>
+
+<main id="main">
+
+<!-- ============ 1. HERO ============ -->
+<section class="hero" id="top" data-sec>
+  <div class="hero-sky" id="heroSky" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <p class="eyebrow">For the sandwich generation</p>
+    <h1 id="heroTitle">Be there, even when you <em>can't</em> be.</h1>
+    <p class="lede">Carelo turns the phone your parent already owns into a gentle daily check-in, and gives you a calm view of how they're really doing.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#demo">Try the live demo <svg class="ic"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
+    </div>
+    <ul class="hero-facts">
+      <li><svg class="ic"><use href="#i-check"/></svg>No extra hardware</li>
+      <li><svg class="ic"><use href="#i-check"/></svg>$0 upfront</li>
+      <li><svg class="ic"><use href="#i-check"/></svg>Runs on the phones you already own</li>
+    </ul>
+  </div>
+
+  <div class="hero-stage" id="heroStage">
+    <span class="ta" id="taSen" style="left:330px;top:300px"></span>
+    <span class="ta" id="taMid" style="left:50%;top:380px"></span>
+    <span class="ta" id="taCar" style="right:330px;top:390px"></span>
+    <span class="ta" id="taOut" style="right:150px;bottom:-40px"></span>
+
+    <figure class="hp hp-sen" id="hpSen" style="margin:0">
+      <div class="phone" role="img" aria-label="Mom's phone showing a large I'm Okay button">
+        <div class="screen s-warm">
+          <div class="sbar"><span>9:02</span><i>●●● 5G</i></div>
+          <div class="scr-pad">
+            <p class="s-sub" style="margin-top:8px">Tuesday morning</p>
+            <p class="s-hello">Good morning, Meera</p>
+            <svg class="ic" style="width:54px;height:54px;color:#DBB155;margin:4px 0"><use href="#i-sun"/></svg>
+            <p class="s-sub">Tap once to tell Priya you're okay.</p>
+            <button class="big-btn bb-ok" id="heroOk" tabindex="-1" aria-hidden="true" style="min-height:190px;margin-top:auto"><svg class="ic"><use href="#i-check"/></svg>I'm Okay</button>
+          </div>
+          <div class="thumb" id="heroThumb"></div>
+        </div>
+      </div>
+      <figcaption class="hp-cap"><svg class="ic"><use href="#i-sun"/></svg>Mom&#39;s phone · Minneapolis</figcaption>
+    </figure>
+
+    <svg class="hero-link-m" id="heroLinkM" viewBox="0 0 40 110" aria-hidden="true"><path id="heroLinkMPath" d="M20 0 C 36 30, 4 70, 20 110" fill="none" stroke="#104E64" stroke-width="2" opacity=".6"/><circle id="heroLinkMDot" r="6" fill="url(#pg-ok)" cx="20" cy="0" opacity="0"/></svg>
+
+    <figure class="hp hp-care" id="hpCar" style="margin:0">
+      <div class="phone" role="img" aria-label="Your phone showing a notification: Mom checked in at 9:02 AM">
+        <div class="screen s-cool">
+          <div class="sbar"><span>9:02</span><i>●●● 5G</i></div>
+          <div class="notif" id="heroNotif"><span class="n-ic"><svg class="ic"><use href="#i-check"/></svg></span><span><b>CARELO · now</b>Mom checked in · 9:02 AM ✓</span></div>
+          <div class="scr-pad" style="gap:10px">
+            <p class="s-sub" style="margin-top:8px;font-size:13px">Dallas · Tuesday</p>
+            <div class="c-head"><span class="avatar">M</span><span><b>Mom</b><small>Meera, 79 · Minneapolis</small></span></div>
+            <div class="c-card c-score"><div class="ring-sm"><svg viewBox="0 0 100 100"><circle class="rt" cx="50" cy="50" r="42"/><circle class="rv" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="37"/></svg><div>86</div></div><p><b>Wellness score</b>Steady this week</p></div>
+            <div class="c-card">
+              <div class="c-row"><span class="dot-ic"><svg class="ic"><use href="#i-pill"/></svg></span><span class="grow">Morning medicine<small>Taken 8:01 AM</small></span><span class="chip chip-ok">Done</span></div>
+              <div class="c-row"><span class="dot-ic"><svg class="ic"><use href="#i-shield"/></svg></span><span class="grow">Daily check-in<small id="heroCheckSub">Due by 10:00 AM</small></span><span class="chip chip-wait" id="heroCheckChip">Waiting</span></div>
+              <div class="c-row"><span class="dot-ic"><svg class="ic"><use href="#i-pulse"/></svg></span><span class="grow">Resting heart rate<small>From Apple Health</small></span><b style="font-size:14px">68 bpm</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="hp-cap"><svg class="ic"><use href="#i-phone"/></svg>Your phone · Dallas, Texas</figcaption>
+    </figure>
+  </div>
+  <p class="sky-note"><svg class="ic"><use href="#i-clock"/></svg>Sky tinted to your local time: <span id="skyLabel">morning</span></p>
+</section>
+
+<!-- ============ 2. PROBLEM ============ -->
+<section class="problem" id="problem" data-sec data-tx="R">
+  <div class="problem-stage">
+    <div class="wrap problem-grid">
+      <div class="problem-copy">
+        <p class="eyebrow">The problem</p>
+        <h2>Caring from far away is now the normal way.</h2>
+        <div class="stats" aria-live="polite">
+          <article class="stat">
+            <p class="stat-num"><span class="count" data-to="54" data-dec="0">54</span><span class="unit">%</span></p>
+            <p class="stat-text">of Americans in their 40s are sandwiched between an aging parent and their own children. Across all adults, it's 1 in 4.</p>
+            <p class="src">Pew Research Center, “More than half of Americans in their 40s are ‘sandwiched’ between an aging parent and their own children,” Aug. 27, 2026. <a href="https://www.pewresearch.org/short-reads/2026/08/27/more-than-half-of-americans-in-their-40s-are-sandwiched-between-an-aging-parent-and-their-own-children/" target="_blank" rel="noopener">Source</a></p>
+          </article>
+          <article class="stat">
+            <p class="stat-num"><span class="count" data-to="63" data-dec="0">63</span><span class="unit">million</span></p>
+            <p class="stat-text">Americans are family caregivers. Nearly 1 in 3 of them also has a child under 18 at home.</p>
+            <p class="src">AARP &amp; National Alliance for Caregiving, <i>Caregiving in the U.S. 2025</i>, July 2025. <a href="https://www.aarp.org/press/releases/2025-07-24-new-report-reveals-crisis-point-for-americas-63-million-family-caregivers.html" target="_blank" rel="noopener">Source</a></p>
+          </article>
+          <article class="stat">
+            <p class="stat-num"><span class="count" data-to="16.2" data-dec="1">16.2</span><span class="unit">million</span></p>
+            <p class="stat-text">Americans aged 65 and older live alone. That's 28% of older adults living in the community.</p>
+            <p class="src">Administration for Community Living, <i>2023 Profile of Older Americans</i> (2023 data). <a href="https://acl.gov/sites/default/files/Profile%20of%20OA/ACL_ProfileOlderAmericans2023_508.pdf" target="_blank" rel="noopener">Source</a></p>
+          </article>
+        </div>
+        <ol class="stat-steps" aria-hidden="true"><li><i></i></li><li><i></i></li><li><i></i></li></ol>
+      </div>
+      <div class="map-wrap" aria-hidden="true">
+        <canvas id="usMap" width="900" height="560"></canvas>
+        <svg id="usArcs" viewBox="0 0 900 560"></svg>
+        <p class="map-legend"><span><i style="background:var(--coral-deep)"></i>A parent's home</span><span><i style="background:var(--teal)"></i>Where their adult child lives</span><span>Illustration</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3. TWO WORLDS ============ -->
+<section class="worlds" id="two-worlds" data-sec data-tx="0.5">
+  <div class="worlds-stage">
+    <div class="wrap worlds-head">
+      <div><p class="eyebrow">One app, two worlds</p><h2>The same day, seen from both sides.</h2></div>
+      <p class="lede">Mom gets one big button at a time. You get the quiet confirmation, and a heads-up only when something's off.</p>
+    </div>
+    <div class="moments" id="moments">
+      <div class="moment" data-time="7:30 AM">
+        <div class="half sen"><span class="half-label">Mom sees</span><p class="m-time">7:30 AM</p><p class="m-say">Step on your scale, then point your phone at it.</p><div class="big-btn bb-med" style="min-height:96px;max-width:380px"><svg class="ic" style="width:34px;height:34px"><use href="#i-camera"/></svg>Scan my scale</div></div>
+        <div class="half car"><span class="half-label">You see</span><p class="m-time">7:31 AM</p><div class="m-quiet"><span class="chk"><svg class="ic"><use href="#i-check"/></svg></span><span><b>Weight logged · 152.4 lb</b><span>Within 1 lb of last week</span></span></div><p class="m-note">No alert, because nothing changed. Carelo flags a weight change only when it's unusual for her.</p></div>
+      </div>
+      <div class="moment" data-time="8:00 AM">
+        <div class="half sen"><span class="half-label">Mom sees</span><p class="m-time">8:00 AM</p><p class="m-say">Time for your blood pressure pill.</p><div class="big-btn bb-ok"><svg class="ic"><use href="#i-pill"/></svg>Took Medicine</div></div>
+        <div class="half car"><span class="half-label">You see</span><p class="m-time">8:01 AM</p><div class="m-quiet"><span class="chk"><svg class="ic"><use href="#i-check"/></svg></span><span><b>Morning medicine taken</b><span>Lisinopril 10 mg · 8:01 AM</span></span></div><p class="m-note">A quiet checkmark. You'd only get a ping if the dose was missed.</p></div>
+      </div>
+      <div class="moment" data-time="11:00 AM">
+        <div class="half sen"><span class="half-label">Mom sees</span><p class="m-time">11:00 AM</p><p class="m-say">Today's brain game: find the matching pairs.</p><div class="mini-cards"><i><svg class="ic"><use href="#i-star"/></svg></i><i class="up"><svg class="ic"><use href="#i-sun"/></svg></i><i><svg class="ic"><use href="#i-star"/></svg></i><i class="up"><svg class="ic"><use href="#i-sun"/></svg></i></div></div>
+        <div class="half car"><span class="half-label">You see</span><p class="m-time">11:04 AM</p><div class="m-quiet"><span class="chk"><svg class="ic"><use href="#i-brain"/></svg></span><span><b>Memory game · 9 / 10</b><span>In her usual range</span></span></div><p class="m-note">Scores build into a trend over weeks, which can help you and her doctor notice changes early.</p></div>
+      </div>
+      <div class="moment" data-time="2:00 PM">
+        <div class="half sen"><span class="half-label">Mom sees</span><p class="m-time">2:00 PM</p><p class="m-say">Hi Meera, are you doing okay?</p><div class="big-btn bb-ok"><svg class="ic"><use href="#i-check"/></svg>I'm Okay</div></div>
+        <div class="half car"><span class="half-label">You see</span><p class="m-time">2:03 PM</p><div class="m-quiet"><span class="chk"><svg class="ic"><use href="#i-check"/></svg></span><span><b>Mom checked in</b><span>2:03 PM · on time</span></span></div><p class="m-note">If she doesn't answer within the window you set, you're notified right away.</p></div>
+      </div>
+      <div class="moment" data-time="9:00 PM">
+        <div class="half sen" style="background:linear-gradient(160deg,#E7F1F8,#CFE3F0)"><span class="half-label">Mom sees</span><p class="m-time">9:00 PM</p><p class="m-say">Good night, Meera. You did everything today.</p><svg class="ic" style="width:64px;height:64px;color:var(--teal)"><use href="#i-moon"/></svg></div>
+        <div class="half car"><span class="half-label">You see</span><p class="m-time">9:00 PM</p><div class="m-quiet"><span class="chk" style="font-weight:700;font-size:15px">86</span><span><b>Wellness score 86 · All good today</b><span>4 of 4 daily items done</span></span></div><p class="m-note">One number you can read at a glance before bed.</p></div>
+      </div>
+      <div class="w-sweep" id="wSweep"></div>
+      <div class="w-divider"><span class="w-clock" id="wClock">7:30 AM</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. FEATURES ============ -->
+<section class="features sec" id="features" data-sec data-tx="0.5">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">What Carelo does</p><h2>Six quiet helpers, one calm picture.</h2></div>
+    <div class="feat-grid">
+      <div class="feat-list">
+        <article class="feat" data-f="0">
+          <p class="feat-k"><svg class="ic"><use href="#i-watch"/></svg>Health Integration Hub</p>
+          <h3>Everything her phone and watch already know, in one place.</h3>
+          <p>Carelo reads vitals and activity from Apple Health, Google Health and compatible smartwatches, then organizes them into one simple card for you.</p>
+          <ul><li><svg class="ic"><use href="#i-check"/></svg>Heart rate, blood pressure, steps and sleep</li><li><svg class="ic"><use href="#i-check"/></svg>No new devices to buy</li></ul>
+        </article>
+        <article class="feat" data-f="1">
+          <p class="feat-k"><svg class="ic"><use href="#i-pill"/></svg>Smart medication &amp; daily check-in</p>
+          <h3>One full-screen button. No menus.</h3>
+          <p>You set the schedule. At dose time, Mom sees a single “Took Medicine” button. A missed dose alerts you right away, and Carelo flags patterns like several misses in a row.</p>
+          <p class="src">About half of medications for chronic conditions aren't taken as prescribed. Viswanathan M, et al. <i>Ann Intern Med</i>. 2012;157(11):785–795.</p>
+        </article>
+        <article class="feat" data-f="2">
+          <p class="feat-k"><svg class="ic"><use href="#i-camera"/></svg>Weight tracking by phone scan</p>
+          <h3>Her old bathroom scale, now connected.</h3>
+          <p>A small reference sticker goes on the scale she already has. She points her phone at the display, the camera reads the number, and Carelo tracks the trend and flags unusual changes.</p>
+        </article>
+        <article class="feat" data-f="3">
+          <p class="feat-k"><svg class="ic"><use href="#i-brain"/></svg>Cognitive mini-tests</p>
+          <h3>A two-minute game that builds a long-term picture.</h3>
+          <p>Short memory and word games are scored over time. The reports can help you and her doctor spot early signs of change. Carelo doesn't diagnose anything.</p>
+          <p class="src">7.4 million Americans 65+ live with Alzheimer's, about 1 in 9. Alzheimer's Association, <i>2026 Alzheimer's Disease Facts and Figures</i>.</p>
+        </article>
+        <article class="feat" data-f="4">
+          <p class="feat-k"><svg class="ic"><use href="#i-shield"/></svg>Safety “I'm Okay” check-in</p>
+          <h3>A simple question at the times you choose.</h3>
+          <p>Carelo asks “Are you okay?” at the times you pick. If there's no answer within the window, you're notified, so silence never goes unnoticed.</p>
+        </article>
+        <article class="feat" data-f="5">
+          <p class="feat-k"><svg class="ic"><use href="#i-heart"/></svg>Wellness Score &amp; weekly report</p>
+          <h3>One number, built from the things that matter.</h3>
+          <p>Medication adherence, weight stability, cognitive results and check-ins roll up into a single score. Every week you get a trend report with anything that needs a closer look.</p>
+        </article>
+      </div>
+      <div class="feat-phone-col">
+        <div class="feat-sticky">
+          <div class="phone" id="featPhone" role="img" aria-label="Carelo screens for each feature">
+            <div class="screen">
+              <div class="sbar"><span>9:41</span><i>●●● 5G</i></div>
+              <div class="fs s-cool on" data-f="0"><div class="scr-pad">
+                <p class="fs-title">Health Hub</p>
+                <div class="hub-src"><div><svg class="ic"><use href="#i-watch"/></svg></div><div><svg class="ic"><use href="#i-phone"/></svg></div></div>
+                <div class="hub-flow" id="hubFlow"></div>
+                <div class="c-card"><p style="font-weight:600;font-size:13px;margin-bottom:8px">Today · Mom</p><div class="vit"><div><b>68</b><small>Resting HR, bpm</small></div><div><b>128/78</b><small>Blood pressure</small></div><div><b>3,420</b><small>Steps</small></div><div><b>7h 05m</b><small>Sleep</small></div></div></div>
+              </div></div>
+              <div class="fs s-warm" data-f="1"><div class="scr-pad" style="text-align:center">
+                <p class="s-sub" style="margin-top:6px">8:00 AM</p>
+                <p class="s-hello">Time for your morning medicine</p>
+                <div class="pill-drop" id="pillDrop"><svg class="ic"><use href="#i-pill"/></svg></div>
+                <p class="s-sub">Lisinopril 10 mg · 1 tablet</p>
+                <div style="position:relative;margin-top:auto"><div class="big-btn bb-ok" id="featMedBtn" style="min-height:150px"><svg class="ic"><use href="#i-check"/></svg>Took Medicine</div><div class="burst" id="medBurst"></div></div>
+              </div></div>
+              <div class="fs s-warm" data-f="2"><div class="scr-pad">
+                <p class="fs-title" style="text-align:center">Scan your scale</p>
+                <div class="scan-view"><div class="scale-art"><div class="scale-lcd" id="lcd">---.-</div><span class="scale-sticker"></span></div><div class="vf"><i></i><i></i><i></i><i></i></div><div class="scanline" id="scanline"></div></div>
+                <p class="s-sub" style="text-align:center" id="scanMsg">Hold steady…</p>
+              </div></div>
+              <div class="fs s-cool" data-f="3"><div class="scr-pad">
+                <p class="fs-title">Memory match</p>
+                <div class="cards4" id="cards4">
+                  <div class="card3d"><span class="back"><svg class="ic"><use href="#i-heart"/></svg></span><span class="face"><svg class="ic"><use href="#i-sun"/></svg></span></div>
+                  <div class="card3d"><span class="back"><svg class="ic"><use href="#i-heart"/></svg></span><span class="face"><svg class="ic"><use href="#i-leaf"/></svg></span></div>
+                  <div class="card3d"><span class="back"><svg class="ic"><use href="#i-heart"/></svg></span><span class="face"><svg class="ic"><use href="#i-sun"/></svg></span></div>
+                </div>
+                <div class="c-card"><p style="font-weight:600;font-size:13px">Memory score · last 8 weeks</p><svg class="spark" viewBox="0 0 240 84" id="cogSpark"><path d="M0 70H240" stroke="#EEF1F4"/><path id="cogLine" d="M0 52 L34 48 L68 50 L102 44 L136 42 L170 40 L204 38 L240 34" fill="none" stroke="#104E64" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><p style="font-size:12px;color:var(--muted)">Steady, in her usual range</p></div>
+              </div></div>
+              <div class="fs s-warm" data-f="4"><div class="scr-pad" style="text-align:center">
+                <p class="s-hello" style="margin-top:14px">Are you okay, Meera?</p>
+                <div class="ring-sm" style="width:170px;height:170px;margin:12px auto"><svg viewBox="0 0 100 100"><circle class="rt" cx="50" cy="50" r="42"/><circle class="rv" id="safeRing" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="0"/></svg><div id="safeTxt">30 min<br>left</div></div>
+                <div class="big-btn bb-ok" style="min-height:96px" id="safeBtn"><svg class="ic" style="width:30px;height:30px"><use href="#i-check"/></svg>I'm Okay</div>
+                <p class="s-sub" id="safeMsg" style="font-size:14px">&nbsp;</p>
+              </div></div>
+              <div class="fs s-cool" data-f="5"><div class="scr-pad">
+                <p class="fs-title" style="text-align:center">Mom's wellness</p>
+                <div class="ws-inputs">
+                  <div class="ring-wrap" style="position:absolute;left:50%;top:20px;margin-left:-100px"><svg viewBox="0 0 200 200"><circle class="ring-track" cx="100" cy="100" r="84"/><circle class="ring-val" id="wsRing" cx="100" cy="100" r="84" stroke-dasharray="527.8" stroke-dashoffset="527.8"/></svg><div class="ring-mid"><div><b id="wsNum">0</b><small>Wellness score</small></div></div></div>
+                </div>
+                <div class="ws-chips" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <span class="chip chip-ok wsc">Medicine 92%</span><span class="chip chip-ok wsc">Weight steady</span><span class="chip chip-ok wsc">Memory 8/10</span><span class="chip chip-ok wsc">Check-ins 6/7</span>
+                </div>
+              </div></div>
+            </div>
+          </div>
+          <p class="feat-cap">Sample data</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5. LIVE DEMO ============ -->
+<section class="demo sec" id="demo" data-sec data-tx="0.5">
+  <div class="wrap">
+    <div class="demo-head">
+      <p class="eyebrow">Live demo</p>
+      <h2>Tap Mom's phone. Watch yours.</h2>
+      <p class="lede">Both screens are real. Take her medicine, play the memory game, scan the scale or check in, and see the dashboard react.</p>
+      <span class="tag"><svg class="ic"><use href="#i-alert"/></svg>Sample data · not a real person</span>
+    </div>
+    <div class="demo-toggle" role="tablist" aria-label="Choose which phone to show">
+      <button role="tab" id="tabSen" aria-selected="true" aria-controls="dcSen">Senior</button>
+      <button role="tab" id="tabCar" aria-selected="false" aria-controls="dcCar">Caregiver<span class="badge" id="carBadge"></span></button>
+    </div>
+    <div class="demo-stage" id="demoStage">
+      <div class="dcol" id="dcSen" role="region" aria-label="Mom's phone, senior interface">
+        <p class="dcol-label"><svg class="ic"><use href="#i-sun"/></svg>Mom's phone</p>
+        <div class="phone" id="sPhone"><div class="screen s-warm" id="sScreen">
+          <div class="sbar"><span id="sClock">9:00</span><i>●●● 5G</i></div>
+          <div id="sView"></div>
+          <div class="snap-layer s-warm" id="sSnap"></div>
+        </div></div>
+      </div>
+      <svg class="bridge" id="bridge" viewBox="0 0 280 160" preserveAspectRatio="none" aria-hidden="true"><path id="bridgePath" d="M0 80 C 90 10, 190 150, 280 80"/><g id="bridgeDots"></g></svg>
+      <div class="dcol" id="dcCar" role="region" aria-label="Your phone, caregiver dashboard">
+        <p class="dcol-label"><svg class="ic"><use href="#i-phone"/></svg>Your phone</p>
+        <div class="phone" id="cPhone"><div class="screen s-cool" id="cScreen">
+          <div class="sbar"><span id="cClock">10:00</span><i>●●● 5G</i></div>
+          <div class="notif" id="cNotif" role="status" aria-live="polite"><span class="n-ic"><svg class="ic"><use href="#i-check"/></svg></span><span><b>CARELO · now</b><span id="cNotifTxt"></span></span></div>
+          <div class="care-scroll" id="cView" data-lenis-prevent></div>
+          <div class="snap-layer s-cool" id="cSnap"></div>
+        </div></div>
+      </div>
+    </div>
+    <div class="demo-controls">
+      <div class="dc-btns">
+        <button class="btn btn-soft coral" id="btnMiss"><svg class="ic"><use href="#i-alert"/></svg>Simulate missed dose</button>
+        <button class="btn btn-soft" id="btnWeek"><svg class="ic"><use href="#i-ff"/></svg>Fast-forward a week</button>
+        <button class="btn btn-ghost" id="btnReset"><svg class="ic"><use href="#i-reset"/></svg>Reset demo</button>
+      </div>
+      <div class="week-track" id="weekTrack" aria-hidden="true">
+        <svg class="arc-path" viewBox="0 0 700 44" preserveAspectRatio="none"><path d="M10 40 Q 350 -20 690 40" fill="none" stroke="#E0E5EB" stroke-width="2" stroke-dasharray="3 6"/></svg>
+        <span class="sun" id="weekSun"></span>
+        <div class="days" id="weekDays"></div>
+      </div>
+      <div class="scrub">
+        <label for="hourRange">Scrub through a typical day</label>
+        <input type="range" id="hourRange" min="7" max="22" step="0.25" value="9" aria-describedby="hourOut">
+        <output id="hourOut" for="hourRange">Live</output>
+      </div>
+      <p class="dc-note">Scrubbing previews a typical day on both phones. Tap either phone or press Reset to go back to the live demo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. WEEKLY REPORT ============ -->
+<section class="report sec" id="report" data-sec data-tx="0.5">
+  <div class="wrap report-grid">
+    <div class="report-copy">
+      <p class="eyebrow">Weekly trend report</p>
+      <h2>Every Sunday, the whole week on one page.</h2>
+      <p>Weight, medication adherence and memory scores, with anything unusual highlighted. It's easy to read on a phone, and you can share it with her doctor.</p>
+      <p class="src">This report is built from the week in the live demo above. Use the demo controls and it changes.</p>
+    </div>
+    <div class="env-stage" id="envStage">
+      <div class="env" id="env">
+        <div class="env-back"></div>
+        <div class="sheet" id="sheet">
+          <div class="sheet-top">
+            <div class="rp-h"><b>Mom's week</b><span id="rpRange">Sample week</span></div>
+            <div class="rp-chart"><p class="ct">Weight <span id="rpW">152.6 lb avg</span></p><svg viewBox="0 0 300 62" id="rpWeight"></svg></div>
+            <div class="rp-chart"><p class="ct">Medication taken <span id="rpA">—</span></p><svg viewBox="0 0 300 62" id="rpAdh"></svg></div>
+          </div>
+          <div class="sheet-bot" id="sheetBot">
+            <div class="rp-chart"><p class="ct">Memory game score <span id="rpC">—</span></p><svg viewBox="0 0 300 62" id="rpCog"></svg></div>
+            <div class="rp-flags" id="rpFlags"></div>
+            <p class="rp-foot">Wellness score <b id="rpScore">86</b> · Sample data · Not medical advice</p>
+          </div>
+        </div>
+        <div class="env-front"></div>
+        <div class="env-flap" id="envFlap"></div>
+        <div class="env-seal" id="envSeal"><svg class="ic"><use href="#i-heart"/></svg></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. SETUP ============ -->
+<section class="setup" id="setup" data-sec data-tx="L">
+  <div class="setup-stage" id="setupStage">
+    <div class="wrap setup-head">
+      <div class="sec-head"><p class="eyebrow">Setup in 5 minutes</p><h2>Mom's part takes about five minutes.</h2><p>You do the paperwork; she taps a few big buttons. Your setup questionnaire takes another 5–10 minutes, whenever suits you.</p></div>
+      <ol class="setup-prog" id="setupProg" aria-label="Setup steps"><li class="on">1</li><li>2</li><li>3</li><li>4</li><li>5</li></ol>
+    </div>
+    <ol class="setup-track" id="setupTrack">
+      <li class="step">
+        <div class="phone" aria-hidden="true"><div class="screen s-cool"><div class="sbar"><span>9:41</span></div><div class="st-pad">
+          <p class="fs-title">Welcome to Carelo</p><p class="s-sub" style="font-size:13px">Who will use this phone?</p>
+          <div class="role-btn sel">Caregiver<small>I'm looking after someone</small></div>
+          <div class="role-btn">Elderly<small>Someone is looking after me</small></div>
+        </div></div></div>
+        <div class="step-copy"><p class="step-n">Step 1 · You</p><h3>Pick your role</h3><p>Download Carelo, choose “Caregiver,” create your account and add your contact details.</p></div>
+      </li>
+      <li class="step">
+        <div class="phone" aria-hidden="true"><div class="screen s-cool"><div class="sbar"><span>9:43</span></div><div class="st-pad">
+          <p class="fs-title">About Mom</p><p class="s-sub" style="font-size:12.5px">Meera · 79 · iPhone · lives alone</p>
+          <div class="plan-mini rec"><span><b>Individual</b>Recommended for 1 loved one</span><strong>$12.99</strong></div>
+          <div class="plan-mini"><span><b>Family</b>More than one loved one</span><strong>$19.99</strong></div>
+          <div class="plan-mini"><span><b>Annual</b>Billed yearly</span><strong>$10</strong></div>
+        </div></div></div>
+        <div class="step-copy"><p class="step-n">Step 2 · You</p><h3>Get a plan recommendation</h3><p>Add a few key facts about your parent. Carelo suggests the plan that fits.</p></div>
+      </li>
+      <li class="step">
+        <div class="phone" aria-hidden="true"><div class="screen s-cool"><div class="sbar"><span>9:45</span></div><div class="st-pad">
+          <p class="fs-title">Invite Mom</p><p class="s-sub" style="font-size:13px">Send this link, then call her and share your screen.</p>
+          <div class="c-card" style="display:flex;gap:10px;align-items:center;font-size:13px"><svg class="ic" style="color:var(--teal)"><use href="#i-link"/></svg><span style="flex:1">carelo.app/join/…</span><svg class="ic"><use href="#i-copy"/></svg></div>
+          <div class="c-card" style="text-align:center"><p style="font-size:12px;color:var(--muted)">Her code</p><p style="font-size:34px;font-weight:700;letter-spacing:8px;color:var(--teal-ink)">48 213</p></div>
+        </div></div></div>
+        <div class="step-copy"><p class="step-n">Step 3 · You</p><h3>Send the invite link</h3><p>After you pay, you get a link and a 5-digit code. It's easiest on a call with screen sharing.</p></div>
+      </li>
+      <li class="step">
+        <div class="phone" aria-hidden="true"><div class="screen s-warm"><div class="sbar"><span>9:47</span></div><div class="st-pad">
+          <p class="s-hello" style="font-size:22px">Enter the code from Priya</p>
+          <div class="code-boxes" id="codeBoxes"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="keypad"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i><i>6</i><i>7</i><i>8</i><i>9</i><i></i><i>0</i><i></i></div>
+        </div></div></div>
+        <div class="step-copy"><p class="step-n">Step 4 · Mom</p><h3>She taps “Elderly” and enters the code</h3><p>That's it. Carelo opens straight into her simple, big-button interface.</p></div>
+      </li>
+      <li class="step">
+        <div class="phone" aria-hidden="true"><div class="screen s-warm"><div class="sbar"><span>9:49</span></div><div class="st-pad">
+          <div class="perm-list"><span class="ok"><svg class="ic"><use href="#i-check"/></svg>Apple Health</span><span class="ok"><svg class="ic"><use href="#i-check"/></svg>Location</span><span><svg class="ic"><use href="#i-bell"/></svg>Notifications</span></div>
+          <p class="s-sub" style="font-size:13px;text-align:center">Tap the circled button</p>
+          <div class="perm-sheet"><b>“Carelo” would like to send you notifications</b><span>Reminders and check-ins will appear here.</span><div class="pbtns"><span>Don't Allow</span><span>Allow<i class="tap-ring" id="tapRing"></i></span></div></div>
+        </div></div></div>
+        <div class="step-copy"><p class="step-n">Step 5 · Mom</p><h3>Three permissions, with pictures</h3><p>Health, location and notifications. Picture guides circle exactly where to tap. Devices connect through tutorials, or through a step-by-step portal that you control remotely.</p></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 8. WHY CARELO ============ -->
+<section class="why sec" id="why" data-sec data-tx="L">
+  <div class="wrap">
+    <div class="why-grid">
+      <div class="sec-head" style="margin:0"><p class="eyebrow">Why Carelo</p><h2>Everything in one app. Nothing to install.</h2><p>Other home-monitoring systems start with hardware. Carelo starts with the phone Mom already carries, so you pay nothing upfront.</p></div>
+      <figure style="margin:0">
+        <svg class="cost-chart" id="costChart" viewBox="0 0 560 360" role="img" aria-labelledby="costT costD"><title id="costT">Upfront cost to get started</title><desc id="costD">GrandCare Systems about $1,795 (third-party estimate, up to about $2,500 with sensors). CarePredict about $449 to $499 for the kit (third-party estimate). Carelo $0.</desc></svg>
+        <figcaption class="src" style="margin-top:8px">Upfront cost to get started, in US dollars.</figcaption>
+      </figure>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp" id="cmp">
+        <caption class="sr">Feature comparison of Carelo, Medisafe, GrandCare Systems and CarePredict</caption>
+        <thead><tr><th scope="col">Feature</th><th scope="col" class="us">Carelo</th><th scope="col">Medisafe</th><th scope="col">GrandCare</th><th scope="col">CarePredict</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Upfront cost</th><td class="us">$0</td><td>$0</td><td>~$1,795*</td><td>~$449–$499*</td></tr>
+          <tr><th scope="row">Monthly cost</th><td class="us">$10–$19.99</td><td>$4.99 Premium</td><td>~$39*</td><td>~$69.99*</td></tr>
+          <tr><th scope="row">Extra hardware needed</th><td class="us">None</td><td>None</td><td>Touchscreen + sensors</td><td>Wrist wearable</td></tr>
+          <tr><th scope="row">Medication reminders</th><td class="us"><span class="yes"><svg class="ic"><use href="#i-check"/></svg></span></td><td>Yes</td><td>Yes</td><td>Not advertised†</td></tr>
+          <tr><th scope="row">Separate senior &amp; caregiver interfaces</th><td class="us"><span class="yes"><svg class="ic"><use href="#i-check"/></svg></span></td><td class="no">No</td><td>Partly</td><td class="no">No</td></tr>
+          <tr><th scope="row">Weight tracking from her own scale</th><td class="us"><span class="yes"><svg class="ic"><use href="#i-check"/></svg></span></td><td>Manual entry</td><td>With connected devices</td><td class="no">No</td></tr>
+          <tr><th scope="row">Cognitive mini-tests</th><td class="us"><span class="yes"><svg class="ic"><use href="#i-check"/></svg></span></td><td class="no">No</td><td class="no">Not listed</td><td class="no">No</td></tr>
+          <tr><th scope="row">Daily “I'm Okay” check-in</th><td class="us"><span class="yes"><svg class="ic"><use href="#i-check"/></svg></span></td><td class="no">No</td><td>Yes</td><td>Activity-based</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="why-notes src">
+      <p>Prices checked November 2026. Medisafe Premium is $4.99/month or $39.99/year per the <a href="https://help-center.medisafe.com/en/articles/8102603-how-much-does-medisafe-premium-cost" target="_blank" rel="noopener">Medisafe Help Center</a>.</p>
+      <p>* Not published by the company. GrandCare's pricing page is password-protected; figures are third-party estimates (ageinplacetech.com), and other sources list different packages. CarePredict's consumer product now appears as SilverKin and its shop is password-protected; figures are earlier listings.</p>
+      <p>† CarePredict offers recorded voice reminders on its wearable but does not advertise a medication-reminder feature. Competitor features are based on public product pages and may change.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. PRICING ============ -->
+<section class="pricing sec" id="pricing" data-sec data-tx="L">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Pricing</p><h2>Find your plan in three taps.</h2><p>Every plan includes both apps, all six features and the weekly report. No hardware, no contracts.</p></div>
+    <div class="finder">
+      <div class="q-stack" id="qStack">
+        <div class="q-card" data-q="0"><div class="q-front"><p class="q-n">Question 1 of 3</p><h3>How many loved ones are you caring for?</h3><div class="q-opts"><button class="q-opt" data-v="1">One</button><button class="q-opt" data-v="2">Two or more</button></div></div><div class="q-back"><p class="q-n" style="color:#fff;opacity:.7">Loved ones</p><b class="q-ans"></b></div></div>
+        <div class="q-card" data-q="1"><div class="q-front"><p class="q-n">Question 2 of 3</p><h3>Do they wear a smartwatch?</h3><div class="q-opts"><button class="q-opt" data-v="apple">Yes, an Apple Watch</button><button class="q-opt" data-v="other">Yes, another brand</button><button class="q-opt" data-v="none">No, just a phone</button></div></div><div class="q-back"><p class="q-n" style="color:#fff;opacity:.7">Smartwatch</p><b class="q-ans"></b></div></div>
+        <div class="q-card" data-q="2"><div class="q-front"><p class="q-n">Question 3 of 3</p><h3>Would you rather pay monthly or yearly?</h3><div class="q-opts"><button class="q-opt" data-v="m">Monthly</button><button class="q-opt" data-v="y">Yearly, and save</button></div></div><div class="q-back"><p class="q-n" style="color:#fff;opacity:.7">Billing</p><b class="q-ans"></b></div></div>
+      </div>
+      <div class="finder-out" aria-live="polite">
+        <p class="q-n" id="finderStatus">Answer the questions to see your plan</p>
+        <h3 id="finderTitle" style="font-size:2rem">Your recommendation will appear here.</h3>
+        <p class="note" id="finderNote">Your answers stay on this page.</p>
+        <button class="btn btn-ghost btn-sm" id="finderReset" style="justify-self:start" hidden><svg class="ic"><use href="#i-reset"/></svg>Start over</button>
+      </div>
+    </div>
+    <div class="plans" id="plans">
+      <article class="plan" data-plan="individual"><span class="rec-tag">Recommended</span><h3>Individual</h3><p class="price">$12.99<small> /month</small></p><p>For one loved one.</p><ul><li><svg class="ic"><use href="#i-check"/></svg>Senior app + caregiver dashboard</li><li><svg class="ic"><use href="#i-check"/></svg>All six features</li><li><svg class="ic"><use href="#i-check"/></svg>Weekly trend report</li></ul><a class="btn btn-ghost" href="#waitlist">Join the waitlist</a></article>
+      <article class="plan" data-plan="family"><span class="rec-tag">Recommended</span><h3>Family</h3><p class="price">$19.99<small> /month</small></p><p>For families looking after more than one loved one.</p><ul><li><svg class="ic"><use href="#i-check"/></svg>Everything in Individual</li><li><svg class="ic"><use href="#i-check"/></svg>More than one loved one</li><li><svg class="ic"><use href="#i-check"/></svg>One dashboard for everyone</li></ul><a class="btn btn-ghost" href="#waitlist">Join the waitlist</a></article>
+      <article class="plan" data-plan="annual"><span class="rec-tag">Recommended</span><h3>Annual</h3><p class="price">$10<small> /month</small></p><p>Billed yearly at $120.</p><ul><li><svg class="ic"><use href="#i-check"/></svg>Everything in Individual</li><li><svg class="ic"><use href="#i-check"/></svg>About 23% less than monthly</li><li><svg class="ic"><use href="#i-check"/></svg>One payment a year</li></ul><a class="btn btn-ghost" href="#waitlist">Join the waitlist</a></article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. FOUNDERS & TRACTION ============ -->
+<section class="founders-sec sec" id="founders" data-sec data-tx="L">
+  <div class="wrap f-grid">
+    <div>
+      <div class="dfw" id="dfw" role="img" aria-label="Map of Dallas–Fort Worth with pins on Frisco, Allen, McKinney and Plano, where Carelo's 10 committed early families live">
+        <svg id="dfwSvg" viewBox="0 0 1160 1120" preserveAspectRatio="xMidYMid slice"></svg>
+        <div class="count-card"><b id="famCount">10</b><span>committed early families</span></div>
+      </div>
+      <p class="src" style="margin-top:10px">Frisco, Allen, McKinney and Plano, Texas. Map is a simplified illustration.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Founders &amp; traction</p>
+      <h2>Built in North Texas, for families everywhere.</h2>
+      <div class="traction">
+        <div><b>10 families committed</b>6 picked a plan, 4 signed up for the beta</div>
+        <div><b>Figma prototype</b>Senior and caregiver interfaces</div>
+        <div><b>Live waitlist</b>at carelo.app</div>
+        <div><b>Award winner</b>YEA! Frisco investor panel</div>
+      </div>
+      <div class="founders">
+        <article class="founder"><span class="avatar" style="background:var(--teal)">SS</span><div><small>Co-founder</small><b>Sujan Sannidhi</b><p>Founded Carelo to help families keep elderly loved ones safe, healthy and connected without giving up their own lives.</p></div></article>
+        <article class="founder"><span class="avatar" style="background:var(--coral);color:var(--teal-ink)">AP</span><div><small>Co-founder</small><b>Aarthi Padavala</b><p>Leads product design and user experience, making sure both interfaces feel simple to the people who use them.</p></div></article>
+      </div>
+      <div class="award" id="award"><span class="medal"><svg class="ic"><use href="#i-award"/></svg></span><div><b>YEA! Frisco</b><span>Won a financial award after pitching to the investor panel</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. ROADMAP ============ -->
+<section class="roadmap sec" id="roadmap" data-sec data-tx="0.5">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Roadmap</p><h2>Where the thread goes next.</h2></div>
+    <div class="road" id="road">
+      <div class="phase"><span class="p-side">01</span><span class="p-node"><span class="ta" style="left:15px;top:15px"></span></span><div class="p-card"><span class="tag">Phase 1 · MVP</span><h3>Launch</h3><ul><li>Senior app and caregiver dashboard</li><li>All six core features</li><li>App Store launch</li></ul></div></div>
+      <div class="phase"><span class="p-side">02</span><span class="p-node"><span class="ta" style="left:15px;top:15px"></span></span><div class="p-card"><span class="tag">Phase 2 · Growth</span><h3>More devices, more family</h3><ul><li>Fitbit and Galaxy Watch support</li><li>Family multi-profile</li><li>Referrals and PDF reports</li></ul></div></div>
+      <div class="phase"><span class="p-side">03</span><span class="p-node"><span class="ta" style="left:15px;top:15px"></span></span><div class="p-card"><span class="tag">Phase 3 · Scale</span><h3>Bring in the care team</h3><ul><li>Reports designed for physicians</li><li>Research into telehealth integration</li><li>Multiple caregivers per senior</li></ul></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12. CTA ============ -->
+<section class="cta sec" id="waitlist" data-sec data-tx="0.5">
+  <div class="wrap">
+    <div class="sec-head"><p class="eyebrow">Join the waitlist</p><h2>Be first when Carelo launches.</h2><p>We'll let you know as soon as the app is ready.</p></div>
+    <div class="heart-stage" id="heartStage">
+      <span class="ta" id="taHeart" style="left:50%;top:21%"></span>
+      <div class="heart-beat" id="heartBeat">
+        <svg class="heart-svg" viewBox="0 0 640 590" aria-hidden="true"><path class="h-fill" id="hFill" d="M320 128 C 272 40, 120 30, 74 140 C 30 250, 140 380, 320 540 C 500 380, 610 250, 566 140 C 520 30, 368 40, 320 128 Z"/><path class="h-line" id="hLine" d="M320 128 C 272 40, 120 30, 74 140 C 30 250, 140 380, 320 540 C 500 380, 610 250, 566 140 C 520 30, 368 40, 320 128 Z"/></svg>
+      </div>
+      <form class="heart-form" id="wlForm" novalidate>
+        <label for="wlName">Your first name</label>
+        <input id="wlName" name="name" autocomplete="given-name" placeholder="Priya">
+        <label for="wlEmail">Email</label>
+        <input id="wlEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required aria-describedby="wlErr">
+        <p class="f-err" id="wlErr" role="alert"></p>
+        <button class="btn btn-coral" type="submit"><svg class="ic"><use href="#i-heart"/></svg>Join the waitlist</button>
+        <p class="f-small">Preview page: sign-ups aren't sent anywhere yet.</p>
+      </form>
+      <div class="done-stage" id="doneStage" aria-live="polite">
+        <svg aria-hidden="true"><path id="donePath" fill="none" stroke="#104E64" stroke-width="2" opacity=".5" stroke-dasharray="3 6"/><circle id="doneDot" r="9" fill="url(#pg-bad)" opacity="0"/></svg>
+        <div class="phone" id="doneSen"><div class="screen s-warm"><div class="scr-pad" style="inset:40px 0 0;text-align:center;justify-content:center"><p class="s-hello" style="font-size:20px">Thank you</p><div class="big-btn bb-ok" style="min-height:110px;font-size:20px"><svg class="ic" style="width:30px;height:30px"><use href="#i-heart"/></svg>See you soon</div></div></div></div>
+        <div class="phone" id="doneCar"><div class="screen s-cool"><div class="notif" style="transform:none;opacity:1;top:34px;font-size:12.5px"><span class="n-ic" style="width:28px;height:28px;background:var(--coral-deep)"><svg class="ic"><use href="#i-heart"/></svg></span><span><b>CARELO</b><span id="doneMsg">You're on the list ❤️</span></span></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div style="display:grid;gap:14px;align-content:start">
+        <a class="logo" href="#top"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 18c4 0 5-7 8-7s3 10 6 10 3-6 4-6h6" fill="none" stroke="#5BB0D7" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>carelo</a>
+        <p>A family ecosystem for looking after aging parents from anywhere.</p>
+        <div class="socials"><a href="#" aria-label="Carelo on LinkedIn (link coming soon)"><svg class="ic"><use href="#i-linkedin"/></svg></a><a href="#" aria-label="Carelo on Instagram (link coming soon)"><svg class="ic"><use href="#i-insta"/></svg></a></div>
+      </div>
+      <ul aria-label="Product"><li><a href="#two-worlds">How it works</a></li><li><a href="#features">Features</a></li><li><a href="#demo">Live demo</a></li><li><a href="#pricing">Pricing</a></li></ul>
+      <ul aria-label="Company"><li><a href="#founders">About us</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#waitlist">Join the waitlist</a></li><li><a href="https://carelo.app" target="_blank" rel="noopener">carelo.app</a></li></ul>
+    </div>
+    <div class="disclaimer">
+      <p><b>Medical disclaimer.</b> Carelo is a caregiving and wellness tool. It is not a medical device and does not diagnose, treat or prevent any disease. Cognitive mini-tests are not a clinical assessment; they can help spot changes worth discussing with a doctor. Always talk to a qualified healthcare provider about medical decisions. In an emergency, call 911.</p>
+      <p>All people, readings and scores shown on this page are sample data. © 2026 Carelo.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="demo.js"></script>
+<script src="site.js"></script>
